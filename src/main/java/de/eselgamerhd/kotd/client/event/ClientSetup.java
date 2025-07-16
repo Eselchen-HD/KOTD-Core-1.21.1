@@ -1,7 +1,5 @@
 package de.eselgamerhd.kotd.client.event;
 
-import de.eselgamerhd.kotd.Config;
-import de.eselgamerhd.kotd.Kotd;
 import de.eselgamerhd.kotd.common.blocks.kotdBlocks.skull.CustomSkullModel;
 import de.eselgamerhd.kotd.common.blocks.kotdBlocks.skull.MagicalSkullArmorLayer;
 import de.eselgamerhd.kotd.common.blocks.kotdBlocks.FlowerPotPackModel;
@@ -16,11 +14,9 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -30,15 +26,13 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerWakeUpEvent;
 
+import static de.eselgamerhd.kotd.Kotd.MODID;
 import static de.eselgamerhd.kotd.common.blocks.kotdBlocks.skull.CustomSkullModel.MAGICAL_SKULL;
-import static net.minecraft.network.chat.Component.literal;
 
 
-@EventBusSubscriber(modid = Kotd.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup {
-    public static final ResourceLocation SKYBLOCK_DIM = ResourceLocation.fromNamespaceAndPath("kotd", "skyblock");
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
@@ -78,24 +72,6 @@ public class ClientSetup {
             if (renderer instanceof PlayerRenderer playerRenderer) {
                 playerRenderer.addLayer(new MagicalSkullArmorLayer(playerRenderer));
             }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
-        Player player = event.getEntity();
-        Level level = player.level();
-        ResourceLocation dimensionId = level.dimension().location();
-
-        if (!level.isClientSide() && dimensionId.equals(SKYBLOCK_DIM) && player.level() instanceof ServerLevel serverLevel) {
-            int wakeTime = Config.MORNING_TIME.get();
-            serverLevel.setDayTime(wakeTime);
-            serverLevel.setWeatherParameters(0, 0, false, false);
-
-            String morningTimeIntroduction = Config.MORNING_TIME_INTRODUCTION.get();
-            player.displayClientMessage(literal(morningTimeIntroduction), true);
-        } else {
-            Kotd.LOGGER.info("Event triggered in dimension: {}", dimensionId);
         }
     }
 }

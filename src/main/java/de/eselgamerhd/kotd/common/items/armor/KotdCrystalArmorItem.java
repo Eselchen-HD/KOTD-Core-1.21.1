@@ -98,7 +98,7 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
             addAttribute(builder, group, Attributes.MINING_EFFICIENCY, 150.0, "mining_efficiency_boost");
         }
         if (this.type == Type.LEGGINGS) {
-            addAttribute(builder, group, Attributes.MOVEMENT_SPEED, 0.2, "movement_speed_boost");
+            addAttribute(builder, group, Attributes.MOVEMENT_SPEED, 0.1, "movement_speed_boost");
             addAttribute(builder, group, Attributes.SNEAKING_SPEED, 0.2, "sneaking_speed_boost");
             addAttribute(builder, group, Attributes.WATER_MOVEMENT_EFFICIENCY, 2.0, "water_movement_boost");
         }
