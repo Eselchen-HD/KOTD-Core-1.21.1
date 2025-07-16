@@ -1,0 +1,32 @@
+{
+  "fml.menu.mods.info.description.kotd": "§4KOTD ist ein Mod, der neue Gegenstände, Blöcke und Funktionen hinzufügt, um dein Minecraft-Erlebnis zu verbessern. Erkunde die Macht der KOTD-Kristalle und entdecke die Geheimnisse des schlafenden Schwarzen Lochs.",
+  "itemGroup.kotd": "§4KOTD",
+  "block.kotd.kotd_block": "§4§lKOTD-Block",
+  "item.kotd.kotd_crystal": "§4§lKOTD §4Kristall",
+  "item.kotd.kotd_crystal_shard": "§4§lKOTD §cKristall Splitter",
+  "item.kotd.kotd_music_disc": "§4KOTD §bMusic Disc",
+  "item.kotd.music_disc.desc": "§bEselgamerHD §7- §4KOTD Theme",
+
+  "item.kotd.kotd_crystal_sword": "§4§lKOTD §4Kristall Schwert",
+  "tooltip.kotd.kotd_crystal_sword": "Ein mächtiges Schwert aus KOTD-Kristall.",
+  "item.kotd.kotd_crystal_pickaxe": "§4§lKOTD §4Kristall Spitzhacke",
+  "item.kotd.kotd_crystal_axe": "§4§lKOTD §4Kristall Axt",
+  "item.kotd.kotd_crystal_shovel": "§4§lKOTD §4Kristall Schaufel",
+  "item.kotd.kotd_crystal_hoe": "§4§lKOTD §4Kristall Hacke",
+
+  "item.kotd.kotd_helmet": "§4§lKOTD §4Kristall Helm",
+  "item.kotd.kotd_chestplate": "§4§lKOTD §4Kristall Brustplatte",
+  "item.kotd.kotd_leggings": "§4§lKOTD §4Kristall Beinschützer",
+  "item.kotd.kotd_boots": "§4§lKOTD §4Kristall Stiefel",
+
+  "item.kotd.dormant_black_hole": "§9Schlafendes Schwarzes Loch",
+    "tooltip.kotd.dormant_black_hole": "§8Ein mysteriöses Objekt, das zu schlafen scheint.",
+    "tooltip.kotd.dormant_black_hole.shift_down": "§7Es könnte eines Tages erwachen.",
+
+  "block.kotd.magical_skull": "§bMagischer Schädel",
+  "block.kotd.flower_pot_pack": "Blumentopf Packung",
+  "block.kotd.angel_block": "§bEngelsblock",
+
+  "item.kotd.off_hand_crossbow": "Offhand Armbrust",
+    "tooltip.kotd.OffHandCrossbow": "§8Eine Armbrust, die in der Nebenhand gehalten werden kann, um schnellen Zugriff auf Fernangriffe zu ermöglichen, ohne die Haupt-Hand zu beanspruchen."
+}

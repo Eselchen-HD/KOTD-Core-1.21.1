@@ -1,0 +1,27 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.kotd_armor": {
+			"loop": true
+		},
+		"idle": {
+			"loop": true,
+			"bones": {
+				"bone": {
+					"rotation": [0, 0, "math.sin(query.anim_time * 1200) * 6"],
+					"position": ["math.cos(query.anim_time * 90) * 32", 0, "-math.sin(query.anim_time * 90) * 32"]
+				}
+			}
+		},
+		"animation.kotd_armor.new": {
+			"animation_length": 4,
+			"bones": {
+				"bone": {
+					"rotation": [0, "query.anim_time * 90", 0],
+					"position": ["math.cos(query.anim_time * 90) * 32", 0, "-math.sin(query.anim_time * 90) * 32"]
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

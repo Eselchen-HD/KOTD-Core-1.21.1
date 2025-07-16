@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "kotd:block/kotd_block"
+    }
+  }
+}

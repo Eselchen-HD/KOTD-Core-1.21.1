@@ -1,0 +1,49 @@
+package de.eselgamerhd.kotd.common.init;
+
+import de.eselgamerhd.kotd.client.sound.KOTDSounds;
+import net.minecraft.Util;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+
+import java.util.EnumMap;
+import java.util.List;
+import java.util.function.Supplier;
+
+import static de.eselgamerhd.kotd.Kotd.MODID;
+import static de.eselgamerhd.kotd.common.init.ModItems.KOTD_CRYSTAL;
+
+public class ModArmorMaterials {
+    public static final Holder<ArmorMaterial> KOTD_ARMOR_MATERIAL = register("kotd_armor_material",
+            Util.make(new EnumMap<>(ArmorItem.Type.class), attribute -> {
+                attribute.put(ArmorItem.Type.BOOTS, 4);
+                attribute.put(ArmorItem.Type.LEGGINGS, 7);
+                attribute.put(ArmorItem.Type.CHESTPLATE, 9);
+                attribute.put(ArmorItem.Type.HELMET, 4);
+                attribute.put(ArmorItem.Type.BODY, 14);
+            }),25, 4f, 0.15f, KOTD_CRYSTAL);
+
+    @SuppressWarnings({"MismatchedQueryAndUpdateOfCollection", "SameParameterValue"})
+    private static Holder<ArmorMaterial> register(String name, EnumMap<ArmorItem.Type, Integer> typeProtection,
+                                                  int enchantability, float toughness, float knockbackResistance,
+                                                  Supplier<Item> ingredientItem) {
+        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(MODID, name);
+        Holder<SoundEvent> equipSound = KOTDSounds.getHolder(KOTDSounds.KOTD_ARMOR_SOUND);
+        Supplier<Ingredient> ingredient = () -> Ingredient.of(ingredientItem.get());
+        List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(location));
+
+        EnumMap<ArmorItem.Type, Integer> typeMap = new EnumMap<>(ArmorItem.Type.class);
+        for (ArmorItem.Type type : ArmorItem.Type.values()) {
+            typeMap.put(type, typeProtection.get(type));
+        }
+
+        return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, location,
+                new ArmorMaterial(typeProtection, enchantability, equipSound, ingredient, layers, toughness, knockbackResistance));
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "item.armor.equip_kotd": {
+    "sounds": [
+      "kotd:kotd_armor_sound"
+    ],
+    "subtitle": "sounds.kotd.kotd_armor_sound"
+  },
+  "entity.walk.kotd": {
+    "sounds": [
+      "kotd:walking"
+    ],
+    "subtitle": "sounds.kotd.entity.walking"
+  },
+  "song.kotd": {
+    "sounds": [{
+      "name": "kotd:song.kotd",
+      "steam": true
+    }]
+  }
+}

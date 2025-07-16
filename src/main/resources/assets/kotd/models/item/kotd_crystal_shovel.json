@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "kotd:item/kotd_crystal_shovel"
+  }
+}

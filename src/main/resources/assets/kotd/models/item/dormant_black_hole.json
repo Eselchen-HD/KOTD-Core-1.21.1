@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "kotd:item/dormant_black_hole_3d"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "kotd:item/dormant_black_hole_2d"
+    },
+    "fixed": {
+      "parent": "kotd:item/dormant_black_hole_2d"
+    }
+  }
+}
