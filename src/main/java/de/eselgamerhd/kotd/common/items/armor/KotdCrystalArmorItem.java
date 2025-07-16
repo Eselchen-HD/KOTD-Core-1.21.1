@@ -95,16 +95,17 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
         }
         if (this.type == Type.CHESTPLATE) {
             addAttribute(builder, group, Attributes.MAX_HEALTH, 30.0, "health_boost");
-            addAttribute(builder, group, Attributes.MINING_EFFICIENCY, 150.0, "mining_efficiency_boost");
+            addAttribute(builder, group, Attributes.MINING_EFFICIENCY, 15.0*10, "mining_efficiency_boost");
         }
         if (this.type == Type.LEGGINGS) {
-            addAttribute(builder, group, Attributes.MOVEMENT_SPEED, 0.1, "movement_speed_boost");
+            addAttribute(builder, group, Attributes.MOVEMENT_SPEED, 0.1*0.5, "movement_speed_boost");
             addAttribute(builder, group, Attributes.SNEAKING_SPEED, 0.2, "sneaking_speed_boost");
             addAttribute(builder, group, Attributes.WATER_MOVEMENT_EFFICIENCY, 2.0, "water_movement_boost");
         }
         if (this.type == Type.BOOTS) {
             addAttribute(builder, group, Attributes.SAFE_FALL_DISTANCE, 999.0, "safe_fall_distance");
             addAttribute(builder, group, Attributes.JUMP_STRENGTH, 0.2, "jump_strength_boost");
+            addAttribute(builder, group, Attributes.STEP_HEIGHT, 1.0, "step_height");
         }
 
         addAttribute(builder, group, Attributes.ATTACK_DAMAGE, 3.3, "damage_boost");

@@ -22,12 +22,12 @@ import static de.eselgamerhd.kotd.common.init.ModItems.KOTD_CRYSTAL;
 public class ModArmorMaterials {
     public static final Holder<ArmorMaterial> KOTD_ARMOR_MATERIAL = register("kotd_armor_material",
             Util.make(new EnumMap<>(ArmorItem.Type.class), attribute -> {
-                attribute.put(ArmorItem.Type.BOOTS, 4);
-                attribute.put(ArmorItem.Type.LEGGINGS, 7);
-                attribute.put(ArmorItem.Type.CHESTPLATE, 9);
-                attribute.put(ArmorItem.Type.HELMET, 4);
-                attribute.put(ArmorItem.Type.BODY, 14);
-            }),25, 4f, 0.15f, KOTD_CRYSTAL);
+                attribute.put(ArmorItem.Type.BOOTS, 8);
+                attribute.put(ArmorItem.Type.LEGGINGS, 12);
+                attribute.put(ArmorItem.Type.CHESTPLATE, 15);
+                attribute.put(ArmorItem.Type.HELMET, 8);
+                attribute.put(ArmorItem.Type.BODY, 19);
+            }),25, 7f, 0.15f, KOTD_CRYSTAL);
 
     @SuppressWarnings({"MismatchedQueryAndUpdateOfCollection", "SameParameterValue"})
     private static Holder<ArmorMaterial> register(String name, EnumMap<ArmorItem.Type, Integer> typeProtection,

@@ -77,9 +77,9 @@ public class Kotd {
             event.accept(DORMANT_BLACK_HOLE.get());
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            event.accept(KOTD_CRYSTAL_SHOVEL.get());
             event.accept(KOTD_CRYSTAL_PICKAXE.get());
             event.accept(KOTD_CRYSTAL_AXE.get());
-            event.accept(KOTD_CRYSTAL_SHOVEL.get());
         }
         if (event.getTabKey() == CreativeModeTabs.COMBAT){
             event.accept(KOTD_CRYSTAL_SWORD.get());
