@@ -1,11 +1,12 @@
 package de.eselgamerhd.kotd;
 
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-@EventBusSubscriber(modid = Kotd.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Kotd.MODID, value = Dist.CLIENT)
 public class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
