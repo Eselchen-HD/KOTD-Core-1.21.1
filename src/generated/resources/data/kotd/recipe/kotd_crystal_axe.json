@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kotd",
+  "key": {
+    "B": {
+      "item": "minecraft:blaze_rod"
+    },
+    "C": {
+      "item": "kotd:kotd_crystal"
+    }
+  },
+  "pattern": [
+    "CC",
+    "CB",
+    " B"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kotd:kotd_crystal_axe"
+  }
+}

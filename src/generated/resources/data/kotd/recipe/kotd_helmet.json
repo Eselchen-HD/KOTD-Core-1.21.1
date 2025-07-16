@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kotd",
+  "key": {
+    "B": {
+      "item": "kotd:kotd_block"
+    },
+    "C": {
+      "item": "kotd:kotd_crystal"
+    }
+  },
+  "pattern": [
+    "BCB",
+    "C C"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kotd:kotd_helmet"
+  }
+}

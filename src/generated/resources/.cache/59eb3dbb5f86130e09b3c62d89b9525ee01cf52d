@@ -1,0 +1,4 @@
+// 1.21.1	2025-07-16T07:13:51.1507821	Loot Tables
+bc1dd94f29e862ca7fc468e06de288b8c08dc299 data/kotd/loot_table/blocks/flower_pot_pack.json
+fe4fee72a7a88ca54d674e8cdb40708f1c5f9111 data/kotd/loot_table/blocks/kotd_block.json
+24ad5245f73f6c5c44f022dc74242bb1ca8b4df9 data/kotd/loot_table/blocks/magical_skull.json

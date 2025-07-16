@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kotd",
+  "key": {
+    "B": {
+      "item": "kotd:kotd_crystal_shard"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BBB",
+    "BBB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kotd:kotd_crystal"
+  }
+}

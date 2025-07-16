@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kotd",
+  "key": {
+    "B": {
+      "item": "kotd:kotd_crystal"
+    },
+    "C": {
+      "item": "kotd:dormant_black_hole"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BCB",
+    "BBB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kotd:kotd_block"
+  }
+}
