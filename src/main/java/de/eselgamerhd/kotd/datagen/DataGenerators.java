@@ -1,6 +1,5 @@
 package de.eselgamerhd.kotd.datagen;
 
-import de.eselgamerhd.kotd.Kotd;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
