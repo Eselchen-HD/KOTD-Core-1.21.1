@@ -25,6 +25,7 @@ public class CreativeTab {
                     output.accept(ModItems.KOTD_CRYSTAL.get());
                     output.accept(ModItems.KOTD_CRYSTAL_SHARD.get());
                     output.accept(ModItems.DORMANT_BLACK_HOLE.get());
+                    output.accept(ModItems.ULTIMATE_KOTD_BLADE.get());
                     output.accept(ModItems.KOTD_CRYSTAL_SWORD.get());
                     output.accept(ModItems.KOTD_CRYSTAL_SHOVEL.get());
                     output.accept(ModItems.KOTD_CRYSTAL_PICKAXE.get());

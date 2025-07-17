@@ -24,6 +24,8 @@ public class ModItems {
     public static final DeferredItem<AngelBlockItem> ANGEL_BLOCK_ITEM = ITEMS.register("angel_block", () -> new AngelBlockItem(ANGEL_BLOCK.get(), new Item.Properties()));
     public static final DeferredItem<MagicalSkullItem> MAGICAL_SKULL = ITEMS.register("magical_skull", () -> new MagicalSkullItem(ModBlocks.MAGICAL_SKULL.get(), new Item.Properties()));
 
+
+    public static final DeferredItem<UltimateKotdBlade> ULTIMATE_KOTD_BLADE = ITEMS.registerItem("ultimate_kotd_blade", (properties) -> new UltimateKotdBlade(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER, 8, -2.4f))));
     public static final DeferredItem<OffHandCrossbowItem> OFF_HAND_CROSSBOW = ITEMS.register("off_hand_crossbow", () -> new OffHandCrossbowItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON), 5.0f,  30));
     public static final DeferredItem<KotdCrystalSwordItem> KOTD_CRYSTAL_SWORD = ITEMS.registerItem("kotd_crystal_sword", (properties) -> new KotdCrystalSwordItem(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER,6,-1.0f))));
     public static final DeferredItem<MertScytheItem> SCYTHE = ITEMS.registerItem("mert_scythe", (properties) -> new MertScytheItem(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER, 7, -2.4f))));

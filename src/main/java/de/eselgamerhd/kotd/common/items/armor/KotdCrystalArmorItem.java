@@ -18,12 +18,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -108,6 +107,7 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
             addAttribute(builder, group, Attributes.STEP_HEIGHT, 1.0, "step_height");
         }
 
+        addAttribute(builder, group, NeoForgeMod.CREATIVE_FLIGHT, 0.25, "creative_flight");
         addAttribute(builder, group, Attributes.ATTACK_DAMAGE, 3.3, "damage_boost");
         addAttribute(builder, group, Attributes.ATTACK_SPEED, 3.3, "attack_speed_boost");
         addAttribute(builder, group, Attributes.LUCK, 10.0, "luck_boost");
@@ -151,40 +151,6 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
         if (!level.isClientSide() && entity instanceof Player player) {
             if (hasFullSuitOfArmorOn(player)) {
                 evaluateArmorEffects(player);
-                enableFlight(player);
-            } else {
-                disableFlight(player);
-            }
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    private void enableFlight(Player player) {
-        Abilities abilities = player.getAbilities();
-        if (!abilities.mayfly) {
-            abilities.mayfly = true;
-            abilities.flying = true;
-            abilities.setFlyingSpeed(0.05f);
-            player.onUpdateAbilities();
-            player.setDeltaMovement(player.getDeltaMovement().multiply(1.0, 0.6, 1.0));
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    private void disableFlight(Player player) {
-        if (!player.isCreative()) {
-            Abilities abilities = player.getAbilities();
-            if (abilities.mayfly) {
-                abilities.mayfly = false;
-                abilities.flying = false;
-                abilities.setFlyingSpeed(0.02f);
-                player.onUpdateAbilities();
-
-                player.setDeltaMovement(new Vec3(
-                        player.getDeltaMovement().x(),
-                        Math.min(player.getDeltaMovement().y(), 0.25),
-                        player.getDeltaMovement().z()
-                ));
             }
         }
     }

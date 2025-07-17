@@ -7,6 +7,9 @@
   "item.kotd.kotd_music_disc": "§4KOTD §bMusic Disc",
   "item.kotd.music_disc.desc": "§bEselgamerHD §7- §4KOTD Theme",
 
+  "item.kotd.kotd_blade": "§4§lKOTD §4Klinge",
+  "tooltip.kotd.kotd_blade": "§cEine mächtige Klinge, geschmiedet aus KOTD-Kristallen.",
+  "tooltip.kotd.kotd_blade.shift_down": "§7Rechtsklick, um ihre wahre Macht zu entfesseln.",
   "item.kotd.kotd_crystal_sword": "§4§lKOTD §4Kristall Schwert",
   "tooltip.kotd.kotd_crystal_sword": "Ein mächtiges Schwert aus KOTD-Kristall.",
   "item.kotd.kotd_crystal_pickaxe": "§4§lKOTD §4Kristall Spitzhacke",
@@ -28,5 +31,5 @@
   "block.kotd.angel_block": "§bEngelsblock",
 
   "item.kotd.off_hand_crossbow": "Offhand Armbrust",
-    "tooltip.kotd.OffHandCrossbow": "§8Eine Armbrust, die in der Nebenhand gehalten werden kann, um schnellen Zugriff auf Fernangriffe zu ermöglichen, ohne die Haupt-Hand zu beanspruchen."
+    "tooltip.kotd.OffHandCrossbow": "§8Eine Armbrust, die in der Nebenhand gehalten werden kann, um schnellen Zugriff auf Fernangriffe zu ermöglichen, ohne die Haupt-Hand zu beanspruchen.",
 }

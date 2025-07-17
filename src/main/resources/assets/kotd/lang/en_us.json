@@ -7,6 +7,10 @@
   "item.kotd.kotd_music_disc": "§4KOTD §bMusic Disc",
     "item.kotd.music_disc.desc": "§bEselgamerHD §7- §4KOTD Theme",
 
+
+  "item.kotd.ultimate_kotd_blade": "§4§lKOTD §4Blade",
+    "tooltip.kotd.ultimate_kotd_blade": "§cA powerful blade forged from KOTD crystals.",
+    "tooltip.kotd.ultimate_kotd_blade.shift_down": "§7Right-click to unleash its true power.",
   "item.kotd.kotd_crystal_sword": "§4§lKOTD §4Crystal Sword",
     "tooltip.kotd.kotd_crystal_sword": "§cAn KOTD Sword with the power of Infinit Energy.",
   "item.kotd.kotd_crystal_pickaxe": "§4§lKOTD §4Crystal Pickaxe",
