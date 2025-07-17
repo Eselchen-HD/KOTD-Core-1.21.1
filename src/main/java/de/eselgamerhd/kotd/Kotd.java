@@ -1,12 +1,12 @@
 package de.eselgamerhd.kotd;
 
+import de.eselgamerhd.kotd.client.event.ClientSetup;
 import de.eselgamerhd.kotd.common.init.ModBlocks;
 import de.eselgamerhd.kotd.common.init.ModEntities;
 import de.eselgamerhd.kotd.common.init.ModItems;
 import de.eselgamerhd.kotd.client.sound.KOTDSounds;
 import com.mojang.logging.LogUtils;
 import de.eselgamerhd.kotd.worldgen.dimension.CustomDimensionEffects;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -14,8 +14,6 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
@@ -30,21 +28,19 @@ public class Kotd {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public Kotd(IEventBus modEventBus, ModContainer modContainer) {
-        NeoForge.EVENT_BUS.register(this);
-
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modEventBus.register(this);
 
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
         KOTDSounds.register(modEventBus);
-
         ModEntities.register(modEventBus);
 
         CREATIVE_MODE_TABS.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
-        modEventBus.addListener(this::registerDimensionEffects);
+        modEventBus.addListener(CustomDimensionEffects::registerDimensionEffects);
     }
 
     @SubscribeEvent
@@ -82,18 +78,12 @@ public class Kotd {
             event.accept(KOTD_CRYSTAL_AXE.get());
         }
         if (event.getTabKey() == CreativeModeTabs.COMBAT){
+            event.accept(ULTIMATE_KOTD_BLADE.get());
             event.accept(KOTD_CRYSTAL_SWORD.get());
             event.accept(KOTD_HELMET.get());
             event.accept(KOTD_CHESTPLATE.get());
             event.accept(KOTD_LEGGINGS.get());
             event.accept(KOTD_BOOTS.get());
         }
-    }
-
-    private void registerDimensionEffects(RegisterDimensionSpecialEffectsEvent event) {
-        event.register(
-                ResourceLocation.fromNamespaceAndPath("kotd", "skyblock_effects"),
-                new CustomDimensionEffects()
-        );
     }
 }

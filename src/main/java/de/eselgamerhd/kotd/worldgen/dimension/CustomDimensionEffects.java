@@ -1,7 +1,9 @@
 package de.eselgamerhd.kotd.worldgen.dimension;
 
 import net.minecraft.client.renderer.DimensionSpecialEffects;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class CustomDimensionEffects extends DimensionSpecialEffects {
@@ -12,5 +14,12 @@ public class CustomDimensionEffects extends DimensionSpecialEffects {
     @Override
     public boolean isFoggyAt(int x, int z) {
         return false;
+    }
+
+    public static void registerDimensionEffects(RegisterDimensionSpecialEffectsEvent event) {
+        event.register(
+                ResourceLocation.fromNamespaceAndPath("kotd", "skyblock_effects"),
+                new CustomDimensionEffects()
+        );
     }
 }
