@@ -13,7 +13,6 @@ public class Config {
             .comment("Ob die Skyblock-Dimension aktiviert werden soll")
             .define("enableSkyblockDimension", true);
 
-
     private static final ModConfigSpec.BooleanValue LOG_PLACEHOLDER = BUILDER
             .comment("Whether to log the dirt block on common setup")
             .define("placeholder", true);
