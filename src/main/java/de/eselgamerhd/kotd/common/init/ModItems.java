@@ -25,14 +25,14 @@ public class ModItems {
     public static final DeferredItem<MagicalSkullItem> MAGICAL_SKULL = ITEMS.register("magical_skull", () -> new MagicalSkullItem(ModBlocks.MAGICAL_SKULL.get(), new Item.Properties()));
 
 
-    public static final DeferredItem<UltimateKotdBlade> ULTIMATE_KOTD_BLADE = ITEMS.registerItem("ultimate_kotd_blade", (properties) -> new UltimateKotdBlade(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER, 8, -2.4f))));
+    public static final DeferredItem<UltimateKotdBlade> ULTIMATE_KOTD_BLADE = ITEMS.registerItem("ultimate_kotd_blade", (properties) -> new UltimateKotdBlade(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER, 132, -1.0f))));
     public static final DeferredItem<OffHandCrossbowItem> OFF_HAND_CROSSBOW = ITEMS.register("off_hand_crossbow", () -> new OffHandCrossbowItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON), 5.0f,  30));
-    public static final DeferredItem<KotdCrystalSwordItem> KOTD_CRYSTAL_SWORD = ITEMS.registerItem("kotd_crystal_sword", (properties) -> new KotdCrystalSwordItem(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER,6,-1.0f))));
+    public static final DeferredItem<KotdCrystalSwordItem> KOTD_CRYSTAL_SWORD = ITEMS.registerItem("kotd_crystal_sword", (properties) -> new KotdCrystalSwordItem(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER,57,-0.6f))));
     public static final DeferredItem<MertScytheItem> SCYTHE = ITEMS.registerItem("mert_scythe", (properties) -> new MertScytheItem(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER, 7, -2.4f))));
 
     public static final DeferredItem<ShovelItem> KOTD_CRYSTAL_SHOVEL = ITEMS.registerItem("kotd_crystal_shovel", (properties) -> new ShovelItem(KOTD_TIER, properties.fireResistant().attributes(ShovelItem.createAttributes(KOTD_TIER, 1.5f, -1.1f))));
     public static final DeferredItem<PickaxeItem> KOTD_CRYSTAL_PICKAXE = ITEMS.registerItem("kotd_crystal_pickaxe", (properties) -> new PickaxeItem(KOTD_TIER, properties.fireResistant().attributes(PickaxeItem.createAttributes(KOTD_TIER, 1.0f, -1.2f))));
-    public static final DeferredItem<AxeItem> KOTD_CRYSTAL_AXE = ITEMS.registerItem("kotd_crystal_axe", (properties) -> new AxeItem(KOTD_TIER, properties.fireResistant().attributes(AxeItem.createAttributes(KOTD_TIER, 5.0f, -2.4f))));
+    public static final DeferredItem<AxeItem> KOTD_CRYSTAL_AXE = ITEMS.registerItem("kotd_crystal_axe", (properties) -> new AxeItem(KOTD_TIER, properties.fireResistant().attributes(AxeItem.createAttributes(KOTD_TIER, 62.0f, -2.8f))));
     public static final DeferredItem<HoeItem> KOTD_CRYSTAL_HOE = ITEMS.registerItem("kotd_crystal_hoe", (properties) -> new HoeItem(KOTD_TIER, properties.fireResistant().attributes(HoeItem.createAttributes(KOTD_TIER, 1.0f, -1.2f))));
 
     public static final DeferredItem<KotdCrystalArmorItem> KOTD_HELMET = ITEMS.register("kotd_helmet", () -> new KotdCrystalArmorItem(ArmorItem.Type.HELMET, new Item.Properties().fireResistant().stacksTo(1)));
