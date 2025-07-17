@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "kotd:item/ultimate_kotd_blade_3d"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "kotd:item/ultimate_kotd_blade_2d"
+    },
+    "fixed": {
+      "parent": "kotd:item/ultimate_kotd_blade_2d"
+    }
+  }
+}
