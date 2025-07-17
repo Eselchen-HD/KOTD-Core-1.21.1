@@ -1,6 +1,5 @@
 package de.eselgamerhd.kotd;
 
-import de.eselgamerhd.kotd.client.event.ClientSetup;
 import de.eselgamerhd.kotd.common.init.ModBlocks;
 import de.eselgamerhd.kotd.common.init.ModEntities;
 import de.eselgamerhd.kotd.common.init.ModItems;
