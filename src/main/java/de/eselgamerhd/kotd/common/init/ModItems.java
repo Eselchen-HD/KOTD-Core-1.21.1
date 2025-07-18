@@ -1,11 +1,11 @@
 package de.eselgamerhd.kotd.common.init;
 
 import de.eselgamerhd.kotd.common.items.armor.kotdCrystalArmor.KotdCrystalArmorItem;
-import de.eselgamerhd.kotd.common.items.items.*;
-import de.eselgamerhd.kotd.common.items.items.Scythe.MertScythe;
-import de.eselgamerhd.kotd.common.items.items.dormantBlackHole.DormantBlackHole;
-import de.eselgamerhd.kotd.common.items.items.offHandCrossBow.OffHandCrossbow;
-import de.eselgamerhd.kotd.common.items.items.ultimateKotdBlade.UltimateKotdBlade;
+import de.eselgamerhd.kotd.common.items.item.*;
+import de.eselgamerhd.kotd.common.items.item.Scythe.MertScythe;
+import de.eselgamerhd.kotd.common.items.item.dormantBlackHole.DormantBlackHole;
+import de.eselgamerhd.kotd.common.items.item.offHandCrossBow.OffHandCrossbow;
+import de.eselgamerhd.kotd.common.items.item.ultimateKotdBlade.UltimateKotdBlade;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;

@@ -1,4 +1,4 @@
-package de.eselgamerhd.kotd.common.items.items.ultimateKotdBlade;
+package de.eselgamerhd.kotd.common.items.item.ultimateKotdBlade;
 
 import de.eselgamerhd.kotd.common.entity.laser_beam.LaserBeam;
 import de.eselgamerhd.kotd.common.init.ModEntities;

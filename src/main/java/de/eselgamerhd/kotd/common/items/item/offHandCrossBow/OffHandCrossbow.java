@@ -1,4 +1,4 @@
-package de.eselgamerhd.kotd.common.items.items.offHandCrossBow;
+package de.eselgamerhd.kotd.common.items.item.offHandCrossBow;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

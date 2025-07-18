@@ -1,4 +1,4 @@
-package de.eselgamerhd.kotd.common.items.items;
+package de.eselgamerhd.kotd.common.items.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

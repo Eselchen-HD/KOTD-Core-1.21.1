@@ -1,4 +1,4 @@
-package de.eselgamerhd.kotd.common.items.items;
+package de.eselgamerhd.kotd.common.items.item;
 
 import de.eselgamerhd.kotd.common.init.ModBlocks;
 import net.minecraft.core.Direction;

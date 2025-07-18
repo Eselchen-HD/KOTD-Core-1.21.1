@@ -1,4 +1,4 @@
-package de.eselgamerhd.kotd.common.items.items.dormantBlackHole;
+package de.eselgamerhd.kotd.common.items.item.dormantBlackHole;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;

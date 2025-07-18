@@ -1,4 +1,4 @@
-package de.eselgamerhd.kotd.common.items.items.ultimateKotdBlade;
+package de.eselgamerhd.kotd.common.items.item.ultimateKotdBlade;
 
 import de.eselgamerhd.kotd.Kotd;
 import net.minecraft.resources.ResourceLocation;

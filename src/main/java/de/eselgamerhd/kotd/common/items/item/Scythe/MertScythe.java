@@ -1,4 +1,4 @@
-package de.eselgamerhd.kotd.common.items.items.Scythe;
+package de.eselgamerhd.kotd.common.items.item.Scythe;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.component.DataComponents;
