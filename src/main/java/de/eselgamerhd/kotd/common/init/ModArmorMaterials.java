@@ -1,6 +1,5 @@
 package de.eselgamerhd.kotd.common.init;
 
-import de.eselgamerhd.kotd.client.sound.KOTDSounds;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -34,7 +33,7 @@ public class ModArmorMaterials {
                                                   int enchantability, float toughness, float knockbackResistance,
                                                   Supplier<Item> ingredientItem) {
         ResourceLocation location = ResourceLocation.fromNamespaceAndPath(MODID, name);
-        Holder<SoundEvent> equipSound = KOTDSounds.getHolder(KOTDSounds.KOTD_ARMOR_SOUND);
+        Holder<SoundEvent> equipSound = ModSounds.getHolder(ModSounds.KOTD_ARMOR_SOUND);
         Supplier<Ingredient> ingredient = () -> Ingredient.of(ingredientItem.get());
         List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(location));
 

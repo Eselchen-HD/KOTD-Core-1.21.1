@@ -7,6 +7,8 @@
   "item.kotd.kotd_music_disc": "§4KOTD §bMusic Disc",
   "item.kotd.music_disc.desc": "§bEselgamerHD §7- §4KOTD Theme",
 
+  "item.kotd.mert_scythe": "§cMerts Sense",
+    "tooltip.kotd.Scythe": "§cEine mächtige Sense, die von Mert geschmiedet wurde.",
   "item.kotd.ultimate_kotd_blade": "§4§lKOTD §4Klinge",
     "tooltip.kotd.ultimate_kotd_blade": "§cEine mächtige Klinge, geschmiedet aus KOTD-Kristallen.",
     "tooltip.kotd.ultimate_kotd_blade.shift_down": "§7Rechtsklick, um ihre wahre Macht zu entfesseln.",

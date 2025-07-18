@@ -1,12 +1,13 @@
 package de.eselgamerhd.kotd.client.event;
 
-import de.eselgamerhd.kotd.common.blocks.kotdBlocks.skull.CustomSkullModel;
-import de.eselgamerhd.kotd.common.blocks.kotdBlocks.skull.MagicalSkullArmorLayer;
-import de.eselgamerhd.kotd.common.blocks.kotdBlocks.FlowerPotPackModel;
-import de.eselgamerhd.kotd.common.blocks.entity.renderer.FlowerPotPackRenderer;
-import de.eselgamerhd.kotd.common.blocks.entity.renderer.MagicalSkullRenderer;
-import de.eselgamerhd.kotd.common.entity.KnightOfTheDark;
-import de.eselgamerhd.kotd.common.entity.renderer.KOTDRenderer;
+import de.eselgamerhd.kotd.common.blocks.skull.CustomSkullModel;
+import de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullArmorLayer;
+import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPackModel;
+import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPackRenderer;
+import de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullRenderer;
+import de.eselgamerhd.kotd.common.entity.kotd.KnightOfTheDark;
+import de.eselgamerhd.kotd.common.entity.kotd.KOTDRenderer;
+import de.eselgamerhd.kotd.common.entity.laser_beam.LaserBeamRenderer;
 import de.eselgamerhd.kotd.common.init.ModEntities;
 import de.eselgamerhd.kotd.worldgen.dimension.CustomDimensionEffects;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -28,7 +29,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
 import static de.eselgamerhd.kotd.Kotd.MODID;
-import static de.eselgamerhd.kotd.common.blocks.kotdBlocks.skull.CustomSkullModel.MAGICAL_SKULL;
+import static de.eselgamerhd.kotd.common.blocks.skull.CustomSkullModel.MAGICAL_SKULL;
 
 
 @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -46,8 +47,9 @@ public class ClientSetup {
     }
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.KNIGHT_OF_THE_DARK.get(), KOTDRenderer::new);
         event.registerBlockEntityRenderer(ModEntities.MAGICAL_SKULL_BE.get(), MagicalSkullRenderer::new);
+        event.registerEntityRenderer(ModEntities.KNIGHT_OF_THE_DARK.get(), KOTDRenderer::new);
+        event.registerEntityRenderer(ModEntities.LASER_BEAM.get(), LaserBeamRenderer::new);
     }
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {

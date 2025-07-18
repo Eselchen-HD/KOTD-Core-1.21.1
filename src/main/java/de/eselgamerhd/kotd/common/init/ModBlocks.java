@@ -1,9 +1,9 @@
 package de.eselgamerhd.kotd.common.init;
 
-import de.eselgamerhd.kotd.common.blocks.kotdBlocks.skull.MagicalSkullBlock;
-import de.eselgamerhd.kotd.common.blocks.kotdBlocks.skull.MagicalWallSkullBlock;
-import de.eselgamerhd.kotd.common.blocks.kotdBlocks.AngelBlock;
-import de.eselgamerhd.kotd.common.blocks.kotdBlocks.FlowerPotPack;
+import de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullBlock;
+import de.eselgamerhd.kotd.common.blocks.skull.MagicalWallSkullBlock;
+import de.eselgamerhd.kotd.common.blocks.AngelBlock;
+import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPack;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

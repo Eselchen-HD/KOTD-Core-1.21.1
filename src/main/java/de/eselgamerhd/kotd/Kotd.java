@@ -3,7 +3,7 @@ package de.eselgamerhd.kotd;
 import de.eselgamerhd.kotd.common.init.ModBlocks;
 import de.eselgamerhd.kotd.common.init.ModEntities;
 import de.eselgamerhd.kotd.common.init.ModItems;
-import de.eselgamerhd.kotd.client.sound.KOTDSounds;
+import de.eselgamerhd.kotd.common.init.ModSounds;
 import com.mojang.logging.LogUtils;
 import de.eselgamerhd.kotd.worldgen.dimension.CustomDimensionEffects;
 import net.minecraft.world.item.*;
@@ -33,7 +33,7 @@ public class Kotd {
 
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
-        KOTDSounds.register(modEventBus);
+        ModSounds.register(modEventBus);
 
         ModEntities.register(modEventBus);
 

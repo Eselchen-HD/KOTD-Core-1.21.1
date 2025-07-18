@@ -7,7 +7,8 @@
   "item.kotd.kotd_music_disc": "§4KOTD §bMusic Disc",
     "item.kotd.music_disc.desc": "§bEselgamerHD §7- §4KOTD Theme",
 
-
+  "item.kotd.mert_scythe": "§cScythe of Mert",
+    "tooltip.kotd.Scythe": "",
   "item.kotd.ultimate_kotd_blade": "§4§lKOTD §4Blade",
     "tooltip.kotd.ultimate_kotd_blade": "§cA powerful blade forged from KOTD crystals.",
     "tooltip.kotd.ultimate_kotd_blade.shift_down": "§7Right-click to unleash its true power.",

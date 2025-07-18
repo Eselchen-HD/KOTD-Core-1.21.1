@@ -9,10 +9,6 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 public class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
-    public static final ModConfigSpec.BooleanValue ENABLE_SKYBLOCK_DIMENSION = BUILDER
-            .comment("Ob die Skyblock-Dimension aktiviert werden soll")
-            .define("enableSkyblockDimension", true);
-
     private static final ModConfigSpec.BooleanValue LOG_PLACEHOLDER = BUILDER
             .comment("Whether to log the dirt block on common setup")
             .define("placeholder", true);
@@ -27,14 +23,12 @@ public class Config {
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
-    public static boolean enableSkyblockDimension;
     public static boolean placeholder;
     public static int morningTime;
     public static String morningTimeIntroduction;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
-        enableSkyblockDimension = ENABLE_SKYBLOCK_DIMENSION.get();
         placeholder = LOG_PLACEHOLDER.get();
         morningTime = MORNING_TIME.get();
         morningTimeIntroduction = MORNING_TIME_INTRODUCTION.get();
