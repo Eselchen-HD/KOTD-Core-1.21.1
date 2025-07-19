@@ -1,7 +1,6 @@
 package de.eselgamerhd.kotd.datagen;
 
 import de.eselgamerhd.kotd.common.init.ModBlocks;
-import de.eselgamerhd.kotd.common.init.ModItems;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -29,9 +28,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     protected void generate() {
         dropSelf(ModBlocks.FLOWER_POT_PACK.get());
         dropSelf(ModBlocks.MAGICAL_SKULL.get());
+        dropSelf(ModBlocks.MAGICAL_WALL_SKULL.get());
         dropSelf(ModBlocks.KOTD_BLOCK.get());
-
-        add(ModBlocks.MAGICAL_WALL_SKULL.get(), block -> createSingleItemTable(ModItems.MAGICAL_SKULL));
     }
 
     @SuppressWarnings("unused")

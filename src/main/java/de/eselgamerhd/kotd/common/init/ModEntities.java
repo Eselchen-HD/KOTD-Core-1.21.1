@@ -28,7 +28,7 @@ public class ModEntities {
             () -> BlockEntityType.Builder.of(MagicalSkullBlockEntity::new, ModBlocks.MAGICAL_SKULL.get(), ModBlocks.MAGICAL_WALL_SKULL.get()).build(null));
 
     public static final DeferredHolder<EntityType<?>, EntityType<LaserBeam>> LASER_BEAM = ENTITY_TYPES.register("black_hole",
-            () -> EntityType.Builder.of(LaserBeam::new, MobCategory.MISC).sized(11, 11).clientTrackingRange(64)
+            () -> EntityType.Builder.of(LaserBeam::new, MobCategory.MISC).sized(0.5f, 0.5f).clientTrackingRange(64)
                     .build(ResourceLocation.fromNamespaceAndPath(Kotd.MODID, "black_hole").toString()));
 
     public static final Supplier<EntityType<KnightOfTheDark>> KNIGHT_OF_THE_DARK = ENTITY_TYPES.register("knight_of_the_dark",

@@ -51,7 +51,6 @@ public class FlowerPotPack extends BaseEntityBlock {
         return SHAPE;
     }
 
-
     @Override
     protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;

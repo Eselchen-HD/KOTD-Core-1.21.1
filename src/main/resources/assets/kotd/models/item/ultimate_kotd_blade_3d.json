@@ -9,7 +9,7 @@
     "thirdperson_righthand": {
       "rotation": [
         7,
-        90,
+        -90,
         0
       ],
       "translation": [
@@ -102,6 +102,6 @@
     }
   },
   "textures": {
-    "particle": "kotd:item/kotd_blade"
+    "particle": "kotd:item/ultimate_kotd_blade_3d"
   }
 }

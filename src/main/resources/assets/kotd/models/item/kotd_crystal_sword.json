@@ -5164,7 +5164,7 @@
 			"translation": [0.75, 2.25, -4.75]
 		},
 		"fixed": {
-			"translation": [-1.25, -1, 1.25]
+			"translation": [-1.25, -1, 0.7]
 		}
 	},
 	"groups": [

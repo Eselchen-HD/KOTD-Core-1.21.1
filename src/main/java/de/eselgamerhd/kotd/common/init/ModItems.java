@@ -6,6 +6,7 @@ import de.eselgamerhd.kotd.common.items.item.Scythe.MertScythe;
 import de.eselgamerhd.kotd.common.items.item.dormantBlackHole.DormantBlackHole;
 import de.eselgamerhd.kotd.common.items.item.offHandCrossBow.OffHandCrossbow;
 import de.eselgamerhd.kotd.common.items.item.ultimateKotdBlade.UltimateKotdBlade;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -25,8 +26,7 @@ public class ModItems {
 
     public static final DeferredItem<DormantBlackHole> DORMANT_BLACK_HOLE = ITEMS.registerItem("dormant_black_hole", (properties) -> new DormantBlackHole(properties.fireResistant().stacksTo(8).rarity(Rarity.EPIC)));
     public static final DeferredItem<AngelBlockItem> ANGEL_BLOCK_ITEM = ITEMS.register("angel_block", () -> new AngelBlockItem(ANGEL_BLOCK.get(), new Item.Properties()));
-    public static final DeferredItem<MagicalSkullItem> MAGICAL_SKULL = ITEMS.register("magical_skull", () -> new MagicalSkullItem(ModBlocks.MAGICAL_SKULL.get(), new Item.Properties()));
-
+    public static final DeferredItem<StandingAndWallBlockItem> MAGICAL_SKULL = ITEMS.register("magical_skull", () -> new StandingAndWallBlockItem(ModBlocks.MAGICAL_SKULL.get(), ModBlocks.MAGICAL_WALL_SKULL.get(), new Item.Properties(), Direction.DOWN));
 
     public static final DeferredItem<UltimateKotdBlade> ULTIMATE_KOTD_BLADE = ITEMS.registerItem("ultimate_kotd_blade", (properties) -> new UltimateKotdBlade(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER, 132, -1.0f))));
     public static final DeferredItem<OffHandCrossbow> OFF_HAND_CROSSBOW = ITEMS.register("off_hand_crossbow", () -> new OffHandCrossbow(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON), 5.0f,  30));

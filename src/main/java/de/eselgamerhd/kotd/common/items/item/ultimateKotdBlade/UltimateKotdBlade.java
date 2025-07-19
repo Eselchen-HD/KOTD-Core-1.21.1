@@ -46,7 +46,7 @@ public class UltimateKotdBlade extends SwordItem implements GeoItem {
         if (!level.isClientSide() && level instanceof ServerLevel serverLevel){
             CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
                 try {
-                    Thread.sleep(700);
+                    Thread.sleep(750);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -54,16 +54,16 @@ public class UltimateKotdBlade extends SwordItem implements GeoItem {
             });
             triggerAnim(player, GeoItem.getOrAssignId(stack, serverLevel), "attack_controller", "attack");
 
-
             if (player.getCooldowns().isOnCooldown(this)) {
                 return InteractionResultHolder.fail(stack);
             }
 
+            player.getCooldowns().addCooldown(this, 120);
             try {
                 future.get();
                 Vec3 eyePos = player.getEyePosition(1.0F);
                 Vec3 lookVec = player.getLookAngle();
-                double maxDistanceFromBeam = 1.75D; // Radius des Strahls
+                double maxDistanceFromBeam = 1.0D; // Radius des Strahls
                 double beamLength = 20.0D;
                 Vec3 end = eyePos.add(lookVec.scale(beamLength));
                 AABB beamBox = new AABB(eyePos, end).inflate(maxDistanceFromBeam);
@@ -89,9 +89,9 @@ public class UltimateKotdBlade extends SwordItem implements GeoItem {
                     entity.hurt(level.damageSources().playerAttack(player), 180.0F);
                 }
 
-                double x = player.getX();
-                double y = player.getY() - player.getEyeHeight() - 2.75D;
-                double z = player.getZ();
+                double x = player.getX() + lookVec.x;
+                double y = player.getY() + lookVec.y + 1.0D;
+                double z = player.getZ() + lookVec.z;
 
                 // Erstelle den Beam
                 LaserBeam beam = new LaserBeam(ModEntities.LASER_BEAM.get(), level);
@@ -99,7 +99,6 @@ public class UltimateKotdBlade extends SwordItem implements GeoItem {
                 beam.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.0F, 0.0F);
                 level.addFreshEntity(beam);
 
-                player.getCooldowns().addCooldown(this, 100); // 5 Sekunden Cooldown
                 player.playSound(SoundEvents.BLAZE_SHOOT, 1.0F, 1.0F);
                 return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
             } catch (InterruptedException | ExecutionException e) {
@@ -112,8 +111,8 @@ public class UltimateKotdBlade extends SwordItem implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.@NotNull ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "ukb_controller", 4, this::predicate));
-        controllers.add(new AnimationController<>(this, "attack_controller", 4, state -> PlayState.STOP)
+        controllers.add(new AnimationController<>(this, "ukb_controller", 0, this::predicate));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", RawAnimation.begin().thenPlay("attack")));
     }
 

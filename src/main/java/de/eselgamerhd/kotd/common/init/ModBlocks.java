@@ -7,7 +7,6 @@ import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPack;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -21,8 +20,8 @@ import static de.eselgamerhd.kotd.Kotd.MODID;
 
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-    public static final DeferredBlock<MagicalSkullBlock> MAGICAL_SKULL = BLOCKS.register("magical_skull", () -> new MagicalSkullBlock(SkullBlock.Types.SKELETON, BlockBehaviour.Properties.of().noOcclusion().strength(1.0f).sound(SoundType.STONE)));
-    public static final DeferredBlock<MagicalWallSkullBlock> MAGICAL_WALL_SKULL = BLOCKS.register("magical_wall_skull", () -> new MagicalWallSkullBlock(SkullBlock.Types.SKELETON, BlockBehaviour.Properties.of().noOcclusion().strength(1.0f).sound(SoundType.STONE).lootFrom(MAGICAL_SKULL)));
+    public static final DeferredBlock<MagicalSkullBlock> MAGICAL_SKULL = BLOCKS.register("magical_skull", MagicalSkullBlock::new);
+    public static final DeferredBlock<MagicalWallSkullBlock> MAGICAL_WALL_SKULL = BLOCKS.register("magical_wall_skull", MagicalWallSkullBlock::new);
     public static final DeferredBlock<Block> KOTD_BLOCK = registerBlock("kotd_block", () -> new Block(BlockBehaviour.Properties.of().strength(4f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST)));
     public static final DeferredBlock<FlowerPotPack> FLOWER_POT_PACK = registerBlock("flower_pot_pack", () -> new FlowerPotPack(BlockBehaviour.Properties.of().strength(0.3f)));
     public static final DeferredBlock<AngelBlock> ANGEL_BLOCK = BLOCKS.register("angel_block", () -> new AngelBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instabreak().explosionResistance(0).noOcclusion().sound(SoundType.MUD).noLootTable()));

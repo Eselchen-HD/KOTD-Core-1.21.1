@@ -32,9 +32,8 @@ public class MagicalSkullArmorLayer extends RenderLayer<AbstractClientPlayer, Pl
                        float netHeadYaw, float headPitch) {
 
         ItemStack itemstack = player.getItemBySlot(EquipmentSlot.HEAD);
-        if (itemstack.isEmpty() || itemstack.getItem() != ModItems.MAGICAL_SKULL.get()) {
-            return;
-        }
+
+        if (!itemstack.is(ModItems.MAGICAL_SKULL)) return;
 
         ItemStack stack = player.getItemBySlot(EquipmentSlot.HEAD);
         if(stack.getItem() == ModItems.MAGICAL_SKULL.get()) {
@@ -48,7 +47,7 @@ public class MagicalSkullArmorLayer extends RenderLayer<AbstractClientPlayer, Pl
 
         poseStack.pushPose();
         getParentModel().head.translateAndRotate(poseStack);
-        poseStack.scale(1.22F, 1.22F, 1.22F);
+        poseStack.scale(1F, 1F, 1F);
         VertexConsumer vertexconsumer = buffer.getBuffer(
                 RenderType.entityCutoutNoCull(SKULL_TEXTURE)
         );

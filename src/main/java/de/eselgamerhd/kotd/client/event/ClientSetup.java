@@ -11,6 +11,7 @@ import de.eselgamerhd.kotd.common.entity.laser_beam.LaserBeamRenderer;
 import de.eselgamerhd.kotd.common.init.ModEntities;
 import de.eselgamerhd.kotd.worldgen.dimension.CustomDimensionEffects;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.resources.PlayerSkin;
@@ -30,6 +31,7 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
 import static de.eselgamerhd.kotd.Kotd.MODID;
 import static de.eselgamerhd.kotd.common.blocks.skull.CustomSkullModel.MAGICAL_SKULL;
+import static de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullBlock.MAGICAL;
 
 
 @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -37,6 +39,7 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
+        SkullBlockRenderer.SKIN_BY_TYPE.put(MAGICAL, ResourceLocation.fromNamespaceAndPath(MODID, "textures/entity/magical_skull.png"));
         BlockEntityRenderers.register(ModEntities.MAGICAL_SKULL_BE.get(), MagicalSkullRenderer::new);
         BlockEntityRenderers.register(ModEntities.FLOWER_POT_PACK_BE.get(), FlowerPotPackRenderer::new);
     }
@@ -66,6 +69,11 @@ public class ClientSetup {
                 ResourceLocation.fromNamespaceAndPath("kotd", "skyblock_effects"),
                 new CustomDimensionEffects()
         );
+    }
+
+    @SubscribeEvent
+    public static void onCreateSkullModel(EntityRenderersEvent.CreateSkullModels event) {
+        event.registerSkullModel(MAGICAL, new CustomSkullModel(event.getEntityModelSet().bakeLayer(CustomSkullModel.MAGICAL_SKULL)));
     }
     @SubscribeEvent
     public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
