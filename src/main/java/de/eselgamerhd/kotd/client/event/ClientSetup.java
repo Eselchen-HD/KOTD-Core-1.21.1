@@ -1,7 +1,6 @@
 package de.eselgamerhd.kotd.client.event;
 
 import de.eselgamerhd.kotd.common.blocks.skull.CustomSkullModel;
-import de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullArmorLayer;
 import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPackModel;
 import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPackRenderer;
 import de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullRenderer;
@@ -12,13 +11,9 @@ import de.eselgamerhd.kotd.common.init.ModEntities;
 import de.eselgamerhd.kotd.worldgen.dimension.CustomDimensionEffects;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -74,14 +69,5 @@ public class ClientSetup {
     @SubscribeEvent
     public static void onCreateSkullModel(EntityRenderersEvent.CreateSkullModels event) {
         event.registerSkullModel(MAGICAL, new CustomSkullModel(event.getEntityModelSet().bakeLayer(CustomSkullModel.MAGICAL_SKULL)));
-    }
-    @SubscribeEvent
-    public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
-        for (PlayerSkin.Model skin : event.getSkins()) {
-            EntityRenderer<? extends Player> renderer = event.getSkin(skin);
-            if (renderer instanceof PlayerRenderer playerRenderer) {
-                playerRenderer.addLayer(new MagicalSkullArmorLayer(playerRenderer));
-            }
-        }
     }
 }
