@@ -34,7 +34,7 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        SkullBlockRenderer.SKIN_BY_TYPE.put(MAGICAL, ResourceLocation.fromNamespaceAndPath(MODID, "textures/entity/magical_skull.png"));
+        SkullBlockRenderer.SKIN_BY_TYPE.put(MAGICAL, ResourceLocation.fromNamespaceAndPath(MODID, "textures/block/magical_skull.png"));
         BlockEntityRenderers.register(ModEntities.MAGICAL_SKULL_BE.get(), MagicalSkullRenderer::new);
         BlockEntityRenderers.register(ModEntities.FLOWER_POT_PACK_BE.get(), FlowerPotPackRenderer::new);
     }
@@ -65,7 +65,6 @@ public class ClientSetup {
                 new CustomDimensionEffects()
         );
     }
-
     @SubscribeEvent
     public static void onCreateSkullModel(EntityRenderersEvent.CreateSkullModels event) {
         event.registerSkullModel(MAGICAL, new CustomSkullModel(event.getEntityModelSet().bakeLayer(CustomSkullModel.MAGICAL_SKULL)));
