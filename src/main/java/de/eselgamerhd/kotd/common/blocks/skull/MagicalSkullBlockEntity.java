@@ -1,6 +1,6 @@
 package de.eselgamerhd.kotd.common.blocks.skull;
 
-import de.eselgamerhd.kotd.common.init.ModEntities;
+import de.eselgamerhd.kotd.common.init.KotdEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
@@ -13,5 +13,5 @@ public class MagicalSkullBlockEntity extends SkullBlockEntity {
     }
 
     @Override
-    public @NotNull BlockEntityType<?> getType() {return ModEntities.MAGICAL_SKULL_BE.get();}
+    public @NotNull BlockEntityType<?> getType() {return KotdEntities.MAGICAL_SKULL_BE.get();}
 }

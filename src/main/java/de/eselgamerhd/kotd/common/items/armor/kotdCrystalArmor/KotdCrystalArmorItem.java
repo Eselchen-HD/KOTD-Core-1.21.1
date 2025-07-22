@@ -2,8 +2,9 @@ package de.eselgamerhd.kotd.common.items.armor.kotdCrystalArmor;
 
 import com.google.common.collect.ImmutableMap;
 import de.eselgamerhd.kotd.Kotd;
-import de.eselgamerhd.kotd.common.init.ModArmorMaterials;
-import de.eselgamerhd.kotd.common.init.ModItems;
+import de.eselgamerhd.kotd.common.init.IEnergyContainer;
+import de.eselgamerhd.kotd.common.init.KotdArmorMaterials;
+import de.eselgamerhd.kotd.common.init.KotdItems;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
@@ -40,15 +41,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
-    private static final Map<Holder<ArmorMaterial>, List<MobEffectInstance>> MATERIAL_TO_EFFECT_MAP = ImmutableMap.of(ModArmorMaterials.KOTD_ARMOR_MATERIAL,
+public class KotdCrystalArmorItem extends ArmorItem implements GeoItem, IEnergyContainer {
+
+    private final int capacity;
+    private final int maxReceive;
+    private final int maxExtract;
+    private static final Map<Holder<ArmorMaterial>, List<MobEffectInstance>> MATERIAL_TO_EFFECT_MAP = ImmutableMap.of(KotdArmorMaterials.KOTD_ARMOR_MATERIAL,
             List.of(
                     new MobEffectInstance(MobEffects.REGENERATION, 100, 1, false, false,false, null),
                     new MobEffectInstance(MobEffects.WATER_BREATHING, 100, 1, false, false, false, null)
             ));
 
     @Override
-    public boolean canWalkOnPowderedSnow(@NotNull ItemStack stack, @NotNull LivingEntity wearer){return stack.is(ModItems.KOTD_BOOTS.get());}
+    public boolean canWalkOnPowderedSnow(@NotNull ItemStack stack, @NotNull LivingEntity wearer){return stack.is(KotdItems.KOTD_BOOTS.get());}
 
     @Override
     public boolean isEnchantable(@NotNull ItemStack stack) {return true;}
@@ -59,9 +64,45 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public KotdCrystalArmorItem(Type type, Properties settings) {
-        super(ModArmorMaterials.KOTD_ARMOR_MATERIAL, type, settings);
+        super(KotdArmorMaterials.KOTD_ARMOR_MATERIAL, type, settings);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
+        this.capacity = 1000000;
+        this.maxReceive = 10000;
+        this.maxExtract = 10000;
     }
+
+    @Override
+    public int receiveEnergy(int maxReceive, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(int maxExtract, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return 0;
+    }
+
+    @Override
+    public int getMaxEnergyStored() {
+        return 0;
+    }
+
+    public int getMaxReceive() {
+        return maxReceive;
+    }
+
+    public int getMaxExtract() {
+        return maxExtract;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
     public static class KotdCrystalArmorRenderer extends GeoArmorRenderer<KotdCrystalArmorItem> {public KotdCrystalArmorRenderer() {super(new KotdCrystalArmorModel());}}
 
     @Override
@@ -113,6 +154,8 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
 
         return builder.build();
     }
+
+    @SuppressWarnings("StringTemplateMigration")
     private void addBaseAttributes(ItemAttributeModifiers.Builder builder, EquipmentSlotGroup group) {
         int defense = this.getMaterial().value().getDefense(this.type);
         float toughness = this.getMaterial().value().toughness();
@@ -125,11 +168,7 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
             builder.add(Attributes.KNOCKBACK_RESISTANCE, createModifier("armor." + this.type.getName(), knockbackResistance), group);
         }
     }
-    private void addAttribute(ItemAttributeModifiers.Builder builder,
-                              EquipmentSlotGroup group,
-                              Holder<Attribute> attribute,
-                              double value,
-                              String name) {
+    private void addAttribute(ItemAttributeModifiers.Builder builder, EquipmentSlotGroup group, Holder<Attribute> attribute, double value, String name) {
         builder.add(attribute,
                 new AttributeModifier(
                         ResourceLocation.fromNamespaceAndPath(Kotd.MODID, name),
@@ -150,6 +189,8 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
         if (!level.isClientSide() && entity instanceof Player player) {
             if (hasFullSuitOfArmorOn(player)) {
                 evaluateArmorEffects(player);
+            } else {
+                MATERIAL_TO_EFFECT_MAP.get(KotdArmorMaterials.KOTD_ARMOR_MATERIAL).forEach(effect -> player.removeEffect(effect.getEffect()));
             }
         }
     }
@@ -171,14 +212,10 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
     }
 
     private boolean hasPlayerCorrectArmorOn(Holder<ArmorMaterial> material, Player player) {
-        for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
-
-            ItemStack stack = player.getItemBySlot(slot);
+        for (ItemStack stack : player.getArmorSlots()) {
             if (stack.isEmpty() || !(stack.getItem() instanceof ArmorItem armorItem)) {
                 return false;
             }
-
             if (!armorItem.getMaterial().equals(material)) {
                 return false;
             }

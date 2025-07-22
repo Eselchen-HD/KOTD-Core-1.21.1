@@ -1,7 +1,7 @@
 package de.eselgamerhd.kotd;
 
-import de.eselgamerhd.kotd.common.init.ModBlocks;
-import de.eselgamerhd.kotd.common.init.ModItems;
+import de.eselgamerhd.kotd.common.init.KotdBlocks;
+import de.eselgamerhd.kotd.common.init.KotdItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -16,25 +16,25 @@ public class CreativeTab {
     static {
         KOTD_TAB = CREATIVE_MODE_TABS.register("kotd", () -> CreativeModeTab.builder()
                 .title(translatable("itemGroup.kotd"))
-                .icon(() -> new ItemStack(ModItems.KOTD_CRYSTAL.get()))
-                .displayItems((params, output) -> {
-                    output.accept(ModBlocks.FLOWER_POT_PACK.get());
-                    output.accept(ModBlocks.ANGEL_BLOCK.get());
-                    output.accept(ModBlocks.KOTD_BLOCK.get());
-                    output.accept(ModItems.MAGICAL_SKULL.get());
-                    output.accept(ModItems.KOTD_CRYSTAL.get());
-                    output.accept(ModItems.KOTD_CRYSTAL_SHARD.get());
-                    output.accept(ModItems.DORMANT_BLACK_HOLE.get());
-                    output.accept(ModItems.ULTIMATE_KOTD_BLADE.get());
-                    output.accept(ModItems.KOTD_CRYSTAL_SWORD.get());
-                    output.accept(ModItems.KOTD_CRYSTAL_SHOVEL.get());
-                    output.accept(ModItems.KOTD_CRYSTAL_PICKAXE.get());
-                    output.accept(ModItems.KOTD_CRYSTAL_AXE.get());
-                    output.accept(ModItems.KOTD_CRYSTAL_HOE.get());
-                    output.accept(ModItems.KOTD_HELMET.get());
-                    output.accept(ModItems.KOTD_CHESTPLATE.get());
-                    output.accept(ModItems.KOTD_LEGGINGS.get());
-                    output.accept(ModItems.KOTD_BOOTS.get());
+                .icon(() -> new ItemStack(KotdItems.KOTD_CRYSTAL.get()))
+                .displayItems((ignoreparams, output) -> {
+                    output.accept(KotdBlocks.FLOWER_POT_PACK.get());
+                    output.accept(KotdBlocks.ANGEL_BLOCK.get());
+                    output.accept(KotdBlocks.KOTD_BLOCK.get());
+                    output.accept(KotdItems.MAGICAL_SKULL.get());
+                    output.accept(KotdItems.KOTD_CRYSTAL.get());
+                    output.accept(KotdItems.KOTD_CRYSTAL_SHARD.get());
+                    output.accept(KotdItems.DORMANT_BLACK_HOLE.get());
+                    output.accept(KotdItems.ULTIMATE_KOTD_BLADE.get());
+                    output.accept(KotdItems.KOTD_CRYSTAL_SWORD.get());
+                    output.accept(KotdItems.KOTD_CRYSTAL_SHOVEL.get());
+                    output.accept(KotdItems.KOTD_CRYSTAL_PICKAXE.get());
+                    output.accept(KotdItems.KOTD_CRYSTAL_AXE.get());
+                    output.accept(KotdItems.KOTD_CRYSTAL_HOE.get());
+                    output.accept(KotdItems.KOTD_HELMET.get());
+                    output.accept(KotdItems.KOTD_CHESTPLATE.get());
+                    output.accept(KotdItems.KOTD_LEGGINGS.get());
+                    output.accept(KotdItems.KOTD_BOOTS.get());
                 }).build()
         );
     }

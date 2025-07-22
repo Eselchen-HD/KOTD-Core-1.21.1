@@ -1,6 +1,6 @@
 package de.eselgamerhd.kotd.common.blocks.flowerPotPack;
 
-import de.eselgamerhd.kotd.common.init.ModEntities;
+import de.eselgamerhd.kotd.common.init.KotdEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class FlowerPotPackEntity extends BlockEntity {
     private final NonNullList<ItemStack> flowerItems = NonNullList.withSize(4, ItemStack.EMPTY);
-    public FlowerPotPackEntity(BlockPos pos, BlockState blockState) {super(ModEntities.FLOWER_POT_PACK_BE.get(), pos, blockState);}
+    public FlowerPotPackEntity(BlockPos pos, BlockState blockState) {super(KotdEntities.FLOWER_POT_PACK_BE.get(), pos, blockState);}
     public ItemStack getFlower(int slot) {
         return flowerItems.get(slot);
     }
@@ -58,7 +58,7 @@ public class FlowerPotPackEntity extends BlockEntity {
     }
 
     @Override
-    public @NotNull BlockEntityType<?> getType() {return ModEntities.FLOWER_POT_PACK_BE.get();}
+    public @NotNull BlockEntityType<?> getType() {return KotdEntities.FLOWER_POT_PACK_BE.get();}
 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {return ClientboundBlockEntityDataPacket.create(this);}

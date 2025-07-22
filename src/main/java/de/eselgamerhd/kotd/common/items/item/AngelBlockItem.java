@@ -1,6 +1,6 @@
 package de.eselgamerhd.kotd.common.items.item;
 
-import de.eselgamerhd.kotd.common.init.ModBlocks;
+import de.eselgamerhd.kotd.common.init.KotdBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -26,7 +26,7 @@ public class AngelBlockItem extends BlockItem {
             BlockPos pos = new BlockPos((int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z));
 
             if (pLevel.isInWorldBounds(pos) && pLevel.getBlockState(pos).canBeReplaced()) {
-                pLevel.setBlock(pos, ModBlocks.ANGEL_BLOCK.get().defaultBlockState(), 3);
+                pLevel.setBlock(pos, KotdBlocks.ANGEL_BLOCK.get().defaultBlockState(), 3);
                 if (!pPlayer.isCreative()) {
                     if (pUsedHand == InteractionHand.MAIN_HAND) {
                         pPlayer.getInventory().removeFromSelected(false);

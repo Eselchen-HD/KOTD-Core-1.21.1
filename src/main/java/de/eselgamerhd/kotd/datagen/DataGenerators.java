@@ -28,13 +28,13 @@ public class DataGenerators {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         generator.addProvider(event.includeServer(), new LootTableProvider(packOutput, Collections.emptySet(),
-                List.of(new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)), lookupProvider));
-        generator.addProvider(event.includeServer(), new ModRecipeProvider(packOutput, lookupProvider));
+                List.of(new LootTableProvider.SubProviderEntry(KotdBlockLootTableProvider::new, LootContextParamSets.BLOCK)), lookupProvider));
+        generator.addProvider(event.includeServer(), new KotdRecipeProvider(packOutput, lookupProvider));
 
-        BlockTagsProvider blockTagsProvider = new ModBlockTagProvider(packOutput, lookupProvider, existingFileHelper);
+        BlockTagsProvider blockTagsProvider = new KotdBlockTagProvider(packOutput, lookupProvider, existingFileHelper);
         generator.addProvider(event.includeServer(), blockTagsProvider);
-        generator.addProvider(event.includeServer(), new ModItemTagProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModDataMapProvider(packOutput, lookupProvider));
-        generator.addProvider(event.includeServer(), new ModDatapackProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new KotdItemTagProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new KotdDataMapProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new KotdDatapackProvider(packOutput, lookupProvider));
     }
 }

@@ -66,7 +66,7 @@ public class LaserBeam extends Projectile {
     public void tick() {
         super.tick();
         this.setDeltaMovement(Vec3.ZERO);
-        if (this.tickCount > 60) {
+        if (this.tickCount > 80) {
             this.discard();
         }
     }

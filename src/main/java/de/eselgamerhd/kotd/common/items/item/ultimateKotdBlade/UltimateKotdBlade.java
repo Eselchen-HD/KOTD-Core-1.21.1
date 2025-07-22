@@ -1,7 +1,8 @@
 package de.eselgamerhd.kotd.common.items.item.ultimateKotdBlade;
 
 import de.eselgamerhd.kotd.common.entity.laser_beam.LaserBeam;
-import de.eselgamerhd.kotd.common.init.ModEntities;
+import de.eselgamerhd.kotd.common.init.KotdEntities;
+import de.eselgamerhd.kotd.common.init.KotdTiers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
@@ -30,6 +31,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
+import static de.eselgamerhd.kotd.common.init.KotdTiers.StateTier.ULTIMATE;
 import static net.minecraft.network.chat.Component.translatable;
 
 public class UltimateKotdBlade extends SwordItem implements GeoItem {
@@ -38,6 +40,10 @@ public class UltimateKotdBlade extends SwordItem implements GeoItem {
     public UltimateKotdBlade(Tier tier, Properties properties) {
         super(tier, properties);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
+    }
+
+    private KotdTiers.StateTier getCurrentTier(ItemStack ignoredStack) {
+        return ULTIMATE;
     }
 
     @Override
@@ -86,7 +92,7 @@ public class UltimateKotdBlade extends SwordItem implements GeoItem {
                 });
 
                 for (Entity entity : entities) {
-                    entity.hurt(level.damageSources().playerAttack(player), 180.0F);
+                    entity.hurt(level.damageSources().playerAttack(player), 200.0F * (float) getCurrentTier(stack).attributeMultiplier);
                 }
 
                 double x = player.getX() + lookVec.x;
@@ -94,7 +100,7 @@ public class UltimateKotdBlade extends SwordItem implements GeoItem {
                 double z = player.getZ() + lookVec.z;
 
                 // Erstelle den Beam
-                LaserBeam beam = new LaserBeam(ModEntities.LASER_BEAM.get(), level);
+                LaserBeam beam = new LaserBeam(KotdEntities.LASER_BEAM.get(), level);
                 beam.setPos(x, y, z);
                 beam.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.0F, 0.0F);
                 level.addFreshEntity(beam);
@@ -102,7 +108,7 @@ public class UltimateKotdBlade extends SwordItem implements GeoItem {
                 player.playSound(SoundEvents.BLAZE_SHOOT, 1.0F, 1.0F);
                 return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
             } catch (InterruptedException | ExecutionException e) {
-                System.err.println("Error during async operation: " + e.getMessage());
+                System.err.printf("Error during async operation: %s%n", e.getMessage());
             }
         }
 

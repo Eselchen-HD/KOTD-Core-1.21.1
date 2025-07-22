@@ -1,6 +1,6 @@
 package de.eselgamerhd.kotd.common.blocks;
 
-import de.eselgamerhd.kotd.common.init.ModItems;
+import de.eselgamerhd.kotd.common.init.KotdItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -17,7 +17,7 @@ public class AngelBlock extends Block {
     @Override
     public boolean onDestroyedByPlayer(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, boolean willHarvest, @NotNull FluidState fluid) {
         if (!player.isCreative()) {
-            player.getInventory().placeItemBackInInventory(ModItems.ANGEL_BLOCK_ITEM.get().getDefaultInstance(), true);
+            player.getInventory().placeItemBackInInventory(KotdItems.ANGEL_BLOCK_ITEM.get().getDefaultInstance(), true);
         }
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }

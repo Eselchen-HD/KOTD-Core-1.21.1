@@ -7,7 +7,7 @@ import de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullRenderer;
 import de.eselgamerhd.kotd.common.entity.kotd.KnightOfTheDark;
 import de.eselgamerhd.kotd.common.entity.kotd.KOTDRenderer;
 import de.eselgamerhd.kotd.common.entity.laser_beam.LaserBeamRenderer;
-import de.eselgamerhd.kotd.common.init.ModEntities;
+import de.eselgamerhd.kotd.common.init.KotdEntities;
 import de.eselgamerhd.kotd.worldgen.dimension.CustomDimensionEffects;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
@@ -31,12 +31,11 @@ import static de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullBlock.MAGICAL;
 
 @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup {
-
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         SkullBlockRenderer.SKIN_BY_TYPE.put(MAGICAL, ResourceLocation.fromNamespaceAndPath(MODID, "textures/block/magical_skull.png"));
-        BlockEntityRenderers.register(ModEntities.MAGICAL_SKULL_BE.get(), MagicalSkullRenderer::new);
-        BlockEntityRenderers.register(ModEntities.FLOWER_POT_PACK_BE.get(), FlowerPotPackRenderer::new);
+        BlockEntityRenderers.register(KotdEntities.MAGICAL_SKULL_BE.get(), MagicalSkullRenderer::new);
+        BlockEntityRenderers.register(KotdEntities.FLOWER_POT_PACK_BE.get(), FlowerPotPackRenderer::new);
     }
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -45,17 +44,17 @@ public class ClientSetup {
     }
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModEntities.MAGICAL_SKULL_BE.get(), MagicalSkullRenderer::new);
-        event.registerEntityRenderer(ModEntities.KNIGHT_OF_THE_DARK.get(), KOTDRenderer::new);
-        event.registerEntityRenderer(ModEntities.LASER_BEAM.get(), LaserBeamRenderer::new);
+        event.registerBlockEntityRenderer(KotdEntities.MAGICAL_SKULL_BE.get(), MagicalSkullRenderer::new);
+        event.registerEntityRenderer(KotdEntities.KNIGHT_OF_THE_DARK.get(), KOTDRenderer::new);
+        event.registerEntityRenderer(KotdEntities.LASER_BEAM.get(), LaserBeamRenderer::new);
     }
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
-        event.put(ModEntities.KNIGHT_OF_THE_DARK.get(), KnightOfTheDark.createAttributes().build());
+        event.put(KotdEntities.KNIGHT_OF_THE_DARK.get(), KnightOfTheDark.createAttributes().build());
     }
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
-        event.register(ModEntities.KNIGHT_OF_THE_DARK.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+        event.register(KotdEntities.KNIGHT_OF_THE_DARK.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
     @SubscribeEvent

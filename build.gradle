@@ -20,9 +20,12 @@ repositories {
             includeGroup("software.bernie.geckolib")
         }
     }
+    maven { url = "https://chickenbones.net/maven" }
 }
+
 dependencies {
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    implementation "io.codechicken:CodeChickenLib:${minecraft_version}-${ccl_version}"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
