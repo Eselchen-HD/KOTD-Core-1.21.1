@@ -118,7 +118,7 @@ public class UltimateKotdBlade extends SwordItem implements GeoItem {
     @Override
     public void registerControllers(AnimatableManager.@NotNull ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "ukb_controller", 0, this::predicate));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, _ -> PlayState.STOP)
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", RawAnimation.begin().thenPlay("attack")));
     }
 
