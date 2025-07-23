@@ -30,8 +30,6 @@ public class KOTDRenderer extends GeoEntityRenderer<KnightOfTheDark> {
     public void renderFinal(PoseStack poseStack, KnightOfTheDark animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, int colour) {
         if (this.currentTick < 0 || this.currentTick != animatable.tickCount) {
             this.currentTick = animatable.tickCount;
-
-            // Find the earbone and use it as the point of reference
             this.model.getBone("lefter").ifPresent(ear -> {
                 RandomSource rand = animatable.getRandom();
                 Vector3d earPos = ear.getWorldPosition();

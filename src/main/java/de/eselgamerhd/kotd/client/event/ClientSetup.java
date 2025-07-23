@@ -1,5 +1,7 @@
 package de.eselgamerhd.kotd.client.event;
 
+import de.eselgamerhd.kotd.client.gui.ConfigScreen;
+import de.eselgamerhd.kotd.client.keybinding.KeyBinds;
 import de.eselgamerhd.kotd.common.blocks.skull.CustomSkullModel;
 import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPackModel;
 import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPackRenderer;
@@ -9,21 +11,26 @@ import de.eselgamerhd.kotd.common.entity.kotd.KOTDRenderer;
 import de.eselgamerhd.kotd.common.entity.laser_beam.LaserBeamRenderer;
 import de.eselgamerhd.kotd.common.init.KotdEntities;
 import de.eselgamerhd.kotd.worldgen.dimension.CustomDimensionEffects;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
+import static com.mojang.text2speech.Narrator.LOGGER;
 import static de.eselgamerhd.kotd.Kotd.MODID;
 import static de.eselgamerhd.kotd.common.blocks.skull.CustomSkullModel.MAGICAL_SKULL;
 import static de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullBlock.MAGICAL;
@@ -31,6 +38,16 @@ import static de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullBlock.MAGICAL;
 
 @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup {
+    public static void commonSetup(FMLCommonSetupEvent ignoredEvent) {LOGGER.info("KOTD Mod common setup initialized");}
+    @SubscribeEvent
+    public void onClientTick(ClientTickEvent.Post event) {
+        if (KeyBinds.OPEN_ATTRIBUTE_MENU.consumeClick()) {
+            Player player = Minecraft.getInstance().player;
+            if (ConfigScreen.hasArmorPiece(player)) {
+                Minecraft.getInstance().setScreen(new ConfigScreen());
+            }
+        }
+    }
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         SkullBlockRenderer.SKIN_BY_TYPE.put(MAGICAL, ResourceLocation.fromNamespaceAndPath(MODID, "textures/block/magical_skull.png"));

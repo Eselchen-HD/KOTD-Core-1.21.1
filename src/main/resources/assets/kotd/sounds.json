@@ -7,7 +7,9 @@
   },
   "entity.walk.kotd": {
     "sounds": [
-      "kotd:walking"
+      "kotd:walking",
+      "kotd:walking1",
+      "kotd:walking2"
     ],
     "subtitle": "sounds.kotd.entity.walking"
   },

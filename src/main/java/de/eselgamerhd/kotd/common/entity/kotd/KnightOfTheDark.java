@@ -25,6 +25,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,8 @@ import static net.minecraft.network.chat.Component.literal;
 public class KnightOfTheDark extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(KnightOfTheDark.class, EntityDataSerializers.INT);
     protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("move.walk");
+    protected static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenLoop("death");
+    protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("idle");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
     private final ServerBossEvent bossEvent = new ServerBossEvent(
             literal("§4§lKnight Of The Dark"),
@@ -55,10 +58,10 @@ public class KnightOfTheDark extends Monster implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
 
-        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 1.2, 32.0F));
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5, true));
-        this.goalSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(3, new MoveTowardsTargetGoal(this, 1.2, 32.0F));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.5, true));
 
         this.goalSelector.addGoal(5, new BreathAirGoal(this));
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0));
@@ -125,14 +128,16 @@ public class KnightOfTheDark extends Monster implements GeoEntity {
     /* Animation System */
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Walking", 5, this::walkingAnimController));
+        controllers.add(new AnimationController<>(this, "Main", 5, this::mainController));
     }
-
-    protected <E extends KnightOfTheDark> PlayState walkingAnimController(final AnimationState<E> event) {
-        if (event.isMoving()) {
+    private <E extends KnightOfTheDark> PlayState mainController(AnimationState<E> event) {
+        if (this.dead || this.getHealth() <= 0) {
+            return event.setAndContinue(DEATH_ANIM);
+        } else if (event.isMoving()) {
             return event.setAndContinue(WALK_ANIM);
+        } else {
+            return event.setAndContinue(IDLE_ANIM);
         }
-        return PlayState.STOP;
     }
 
     @Override
@@ -162,8 +167,9 @@ public class KnightOfTheDark extends Monster implements GeoEntity {
     }
 
     @Override
-    protected void playStepSound(@NotNull BlockPos pos, @NotNull BlockState block) {
-        this.playSound(this.getStepSound(), 0.15F, 1.0F);
+    protected void playStepSound(@NotNull BlockPos pos, BlockState block) {
+        @SuppressWarnings("deprecation") SoundType soundtype = block.getSoundType();
+        this.playSound(getStepSound(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
     }
 
     /* Boss Bar System */

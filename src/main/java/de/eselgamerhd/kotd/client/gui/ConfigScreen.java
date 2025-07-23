@@ -351,7 +351,7 @@ public class ConfigScreen extends Screen {
 
         @Override
         protected void applyValue() {
-            if (armorPiece.getItem() instanceof KotdCrystalArmorItem armorItem) {
+            if (armorPiece.getItem() instanceof KotdCrystalArmorItem) {
                 CustomData data = armorPiece.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
                 CompoundTag tag = data.copyTag();
                 tag.putDouble("attr_%s".formatted(attribute.configKey()), this.value);

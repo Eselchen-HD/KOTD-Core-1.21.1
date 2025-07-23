@@ -49,11 +49,11 @@ public class MertScythe extends HoeItem implements GeoItem {
         tooltip.add(empty());
     }
 
-    public float radius = 1.5f;  // Radius of the half-circle
-    public float width = 3.0f;   // Width of the attack area
-    public float height = 3.0f;  // Height of the attack area
-    public float depth = 3.0f;   // Depth of the attack area
-    public float distance = 0.5f; // Distance in front of the player
+    public final float radius = 1.5f;  // Radius of the half-circle
+    public final float width = 3.0f;   // Width of the attack area
+    public final float height = 3.0f;  // Height of the attack area
+    public final float depth = 3.0f;   // Depth of the attack area
+    public final float distance = 0.5f; // Distance in front of the player
 
     @Override
     public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity, int timeLeft) {

@@ -62,7 +62,6 @@ public class ConfigButton extends AbstractConfigButton {
         private int y;
         private int width = 150;
         private int height = 20;
-        private boolean active = true; // Default to active
         private ConfigButton.CreateNarration createNarration = ConfigButton.DEFAULT_NARRATION;
 
         public Builder(Component message, ConfigButton.OnPress onPress) {
@@ -90,10 +89,6 @@ public class ConfigButton extends AbstractConfigButton {
 
         public ConfigButton.Builder bounds(int x, int y, int width, int height) {
             return this.pos(x, y).size(width, height);
-        }
-        public ConfigButton.Builder active(boolean active) {
-            this.active = active;
-            return this;
         }
 
         @SuppressWarnings("unused")

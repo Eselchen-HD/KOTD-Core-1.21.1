@@ -15,7 +15,7 @@ public class MagicalSkullBlock extends SkullBlock {
     public static final MapCodec<MagicalSkullBlock> CODEC =
             RecordCodecBuilder.mapCodec(instance ->
                     instance.group(propertiesCodec())
-                            .apply(instance, props -> new MagicalSkullBlock())
+                            .apply(instance, _ -> new MagicalSkullBlock())
             );
     public MagicalSkullBlock() {
         super(MAGICAL, BlockBehaviour.Properties.ofFullCopy(Blocks.PLAYER_HEAD));
