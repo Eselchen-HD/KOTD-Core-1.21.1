@@ -2,7 +2,6 @@ package de.eselgamerhd.kotd.common.items.armor.kotdCrystalArmor;
 
 import com.google.common.collect.ImmutableMap;
 import de.eselgamerhd.kotd.Kotd;
-import de.eselgamerhd.kotd.common.init.IEnergyContainer;
 import de.eselgamerhd.kotd.common.init.KotdArmorMaterials;
 import de.eselgamerhd.kotd.common.init.KotdItems;
 import net.minecraft.client.model.HumanoidModel;
@@ -44,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class KotdCrystalArmorItem extends ArmorItem implements GeoItem, IEnergyContainer {
+public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
     private static final Map<Holder<ArmorMaterial>, List<MobEffectInstance>> MATERIAL_TO_EFFECT_MAP = ImmutableMap.of(KotdArmorMaterials.KOTD_ARMOR_MATERIAL,
             List.of(
                     new MobEffectInstance(MobEffects.REGENERATION, 100, 1, false, false,false, null),
@@ -65,26 +64,6 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem, IEnergyC
     public KotdCrystalArmorItem(Type type, Properties settings) {
         super(KotdArmorMaterials.KOTD_ARMOR_MATERIAL, type, settings);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
-    }
-
-    @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        return 0;
-    }
-
-    @Override
-    public int getEnergyStored() {
-        return 0;
-    }
-
-    @Override
-    public int getMaxEnergyStored() {
-        return 0;
     }
 
     public static class KotdCrystalArmorRenderer extends GeoArmorRenderer<KotdCrystalArmorItem> {public KotdCrystalArmorRenderer() {super(new KotdCrystalArmorModel());}}
