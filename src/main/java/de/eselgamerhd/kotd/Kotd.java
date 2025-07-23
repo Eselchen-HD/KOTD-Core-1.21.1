@@ -8,8 +8,6 @@ import de.eselgamerhd.kotd.common.init.KotdEntities;
 import de.eselgamerhd.kotd.common.init.KotdItems;
 import de.eselgamerhd.kotd.common.init.KotdSounds;
 import com.mojang.logging.LogUtils;
-import de.eselgamerhd.kotd.common.integrations.equipment.IEquipmentManager;
-import de.eselgamerhd.kotd.network.KotdNetwork;
 import de.eselgamerhd.kotd.worldgen.dimension.CustomDimensionEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
@@ -29,13 +27,11 @@ import static de.eselgamerhd.kotd.CreativeTab.CREATIVE_MODE_TABS;
 public class Kotd {
     public static final String MODID = "kotd";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static IEquipmentManager equipmentManager = null;
 
     public Kotd(IEventBus modEventBus, ModContainer modContainer) {
         NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
-        KotdNetwork.register(modEventBus);
         KotdBlocks.register(modEventBus);
         KotdItems.register(modEventBus);
         KotdSounds.register(modEventBus);

@@ -3,12 +3,10 @@ package de.eselgamerhd.kotd.client.gui;
 import de.eselgamerhd.kotd.Kotd;
 import de.eselgamerhd.kotd.common.items.armor.kotdCrystalArmor.KotdCrystalArmorItem;
 import de.eselgamerhd.kotd.common.items.item.ultimateKotdBlade.UltimateKotdBlade;
+import de.eselgamerhd.kotd.network.UpdateArmorAttributesPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractSliderButton;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
@@ -22,6 +20,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
@@ -30,12 +30,13 @@ import java.util.*;
 public class ConfigScreen extends Screen {
     private static final ResourceLocation BACKGROUND = ResourceLocation.fromNamespaceAndPath(Kotd.MODID, "textures/gui/backgrounds/config_screen_background.png");
     private static final int WIDTH = 256;
-    private static final int HEIGHT = 222;
+    private static final int HEIGHT = 256;
 
-    private enum PopupType { NONE, HELMET, CHESTPLATE, LEGGINGS, BOOTS, SWORD, PICKAXE }
+    private enum PopupType { NONE, HELMET, CHESTPLATE, LEGGINGS, BOOTS, SWORD }
     private PopupType currentPopup = PopupType.NONE;
     private int popupAnimation = 0;
     private static final int POPUP_ANIMATION_TIME = 5;
+    private ItemStack pendingChanges;
 
     public ConfigScreen() {
         super(Component.translatable("gui.kotd.attribute_menu"));
@@ -51,50 +52,57 @@ public class ConfigScreen extends Screen {
     private final Map<EquipmentSlot, List<ArmorAttribute>> slotAttributes = new HashMap<>();
     private void initSlotAttributes() {
         slotAttributes.put(
-        EquipmentSlot.HEAD, List.of(
-                new ArmorAttribute(
-                        Component.translatable("attribute.kotd.oxygen"),
-                        Attributes.OXYGEN_BONUS,
-                        50.0,
-                        EquipmentSlot.HEAD,
-                        "oxygen_bonus"
-                ),
-                new ArmorAttribute(
-                        Component.translatable("attribute.kotd.efficiency"),
-                        Attributes.MINING_EFFICIENCY,
-                        50.0,
-                        EquipmentSlot.HEAD,
-                        "efficiency"
-                )
-        ));
+                EquipmentSlot.HEAD, List.of(
+                        new ArmorAttribute(
+                                Component.translatable("attribute.kotd.efficiency"),
+                                Attributes.MINING_EFFICIENCY,
+                                50.0,
+                                EquipmentSlot.HEAD,
+                                "efficiency"
+                        )
+                ));
 
         slotAttributes.put(
                 EquipmentSlot.CHEST, List.of(
-                new ArmorAttribute(
-                        Component.translatable("attribute.kotd.health"),
-                        Attributes.MAX_HEALTH,
-                        50.0,
-                        EquipmentSlot.CHEST,
-                        "health_boost"
-                )
-        ));
+                        new ArmorAttribute(
+                                Component.translatable("attribute.kotd.health"),
+                                Attributes.MAX_HEALTH,
+                                50.0,
+                                EquipmentSlot.CHEST,
+                                "health_boost"
+                        ),
+                        new ArmorAttribute(
+                                Component.translatable("attribute.kotd.fly_speed"),
+                                Attributes.FLYING_SPEED,
+                                1000.0,
+                                EquipmentSlot.CHEST,
+                                "fly_speed"
+                        )
+                ));
 
         slotAttributes.put(
                 EquipmentSlot.LEGS, List.of(
-                new ArmorAttribute(
-                        Component.translatable("attribute.kotd.movement"),
-                        Attributes.MOVEMENT_SPEED,
-                        30.0,
-                        EquipmentSlot.LEGS,
-                        "movement_speed"
-                )
-        ));
+                        new ArmorAttribute(
+                                Component.translatable("attribute.kotd.movement"),
+                                Attributes.MOVEMENT_SPEED,
+                                1.0,
+                                EquipmentSlot.LEGS,
+                                "movement_speed"
+                        ),
+                        new ArmorAttribute(
+                                Component.translatable("attribute.kotd.swim_movement"),
+                                NeoForgeMod.SWIM_SPEED,
+                                10.0,
+                                EquipmentSlot.LEGS,
+                                "swim_speed"
+                        )
+                ));
         slotAttributes.put(
                 EquipmentSlot.FEET, List.of(
                         new ArmorAttribute(
                                 Component.translatable("attribute.kotd.step"),
                                 Attributes.STEP_HEIGHT,
-                                30.0,
+                                10.0,
                                 EquipmentSlot.FEET,
                                 "step_height"
                         ),
@@ -105,7 +113,7 @@ public class ConfigScreen extends Screen {
                                 EquipmentSlot.FEET,
                                 "jump_strength"
                         )
-        ));
+                ));
     }
 
     @Override
@@ -124,76 +132,82 @@ public class ConfigScreen extends Screen {
 
         addMainButtons(left, top);
     }
-
     @SuppressWarnings("unused")
     private void addMainButtons(int left, int top) {
         if (currentPopup == PopupType.NONE) {
-        Player player = Minecraft.getInstance().player;
-        if (player == null) return;
+            Player player = Minecraft.getInstance().player;
+            if (player == null) return;
 
-        ItemStack helmet = player.getItemBySlot(EquipmentSlot.HEAD);
-        boolean hasHelmet = helmet.getItem() instanceof KotdCrystalArmorItem;
-        this.addRenderableWidget(ConfigButton.builder(
+            // Helmet Button
+            ConfigButton helmetButton = ConfigButton.builder(
                             Component.translatable("config.kotd.helmet"),
-                            Helmet -> openPopup(PopupType.HELMET))
-                .bounds(left + 20, top + 20, 59, 15)
-                .build());
+                            button -> openPopup(PopupType.HELMET))
+                    .bounds(left + 20, top + 20, 59, 15)
+                    .build();
+            helmetButton.active = isArmorEquipped(EquipmentSlot.HEAD);
+            if (!helmetButton.active) {
+                helmetButton.setTooltip(Tooltip.create(Component.translatable("tooltip.kotd.equip_helmet")));
+            }
+            this.addRenderableWidget(helmetButton);
 
-        ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
-        boolean hasChestplate = chestplate.getItem() instanceof KotdCrystalArmorItem;
-        this.addRenderableWidget(ConfigButton.builder(
-                        Component.translatable("config.kotd.chestplate"),
-                        Chestplate -> openPopup(PopupType.CHESTPLATE))
-                .bounds(left + 20, top + 35, 59, 15)
-                .build());
+            // Chestplate Button
+            ConfigButton chestplateButton = ConfigButton.builder(
+                            Component.translatable("config.kotd.chestplate"),
+                            button -> openPopup(PopupType.CHESTPLATE))
+                    .bounds(left + 20, top + 35, 59, 15)
+                    .build();
+            chestplateButton.active = isArmorEquipped(EquipmentSlot.CHEST);
+            if (!chestplateButton.active) {
+                chestplateButton.setTooltip(Tooltip.create(Component.translatable("tooltip.kotd.equip_chestplate")));
+            }
+            this.addRenderableWidget(chestplateButton);
 
-        ItemStack leggings = player.getItemBySlot(EquipmentSlot.LEGS);
-        boolean hasLeggings = leggings.getItem() instanceof KotdCrystalArmorItem;
-        this.addRenderableWidget(ConfigButton.builder(
-                        Component.translatable("config.kotd.leggings"),
-                        Leggings -> openPopup(PopupType.LEGGINGS))
-                .bounds(left + 20, top + 50, 59, 15)
-                .build());
+            // Leggings Button
+            ConfigButton leggingsButton = ConfigButton.builder(
+                            Component.translatable("config.kotd.leggings"),
+                            button -> openPopup(PopupType.LEGGINGS))
+                    .bounds(left + 20, top + 50, 59, 15)
+                    .build();
+            leggingsButton.active = isArmorEquipped(EquipmentSlot.LEGS);
+            if (!leggingsButton.active) {
+                leggingsButton.setTooltip(Tooltip.create(Component.translatable("tooltip.kotd.equip_leggings")));
+            }
+            this.addRenderableWidget(leggingsButton);
 
-        ItemStack boots = player.getItemBySlot(EquipmentSlot.FEET);
-        boolean hasBoots = boots.getItem() instanceof KotdCrystalArmorItem;
-        this.addRenderableWidget(ConfigButton.builder(
-                        Component.translatable("config.kotd.boots"),
-                        Boots -> openPopup(PopupType.BOOTS))
-                .bounds(left + 20, top + 65, 59, 15)
-                .build());
+            // Boots Button
+            ConfigButton bootsButton = ConfigButton.builder(
+                            Component.translatable("config.kotd.boots"),
+                            button -> openPopup(PopupType.BOOTS))
+                    .bounds(left + 20, top + 65, 59, 15)
+                    .build();
+            bootsButton.active = isArmorEquipped(EquipmentSlot.FEET);
+            if (!bootsButton.active) {
+                bootsButton.setTooltip(Tooltip.create(Component.translatable("tooltip.kotd.equip_boots")));
+            }
+            this.addRenderableWidget(bootsButton);
 
-        ItemStack sword = player.getItemBySlot(EquipmentSlot.MAINHAND);
-        boolean hasSword = boots.getItem() instanceof KotdCrystalArmorItem;
-        this.addRenderableWidget(ConfigButton.builder(
-                        Component.translatable("config.kotd.sword"),
-                        Boots -> openPopup(PopupType.SWORD))
-                .bounds(left + 90, top + 65, 59, 15)
-                .build());
+            // Sword Button (separate Logik)
+            ConfigButton swordButton = ConfigButton.builder(
+                            Component.translatable("config.kotd.sword"),
+                            button -> openPopup(PopupType.SWORD))
+                    .bounds(left + 90, top + 65, 59, 15)
+                    .build();
+            swordButton.active = hasSwordEquipped();
+            if (!swordButton.active) {
+                swordButton.setTooltip(Tooltip.create(Component.translatable("tooltip.kotd.equip_sword")));
+            }
+            this.addRenderableWidget(swordButton);
 
-        // Close Button
-        this.addRenderableWidget(Button.builder(
-                        Component.translatable("gui.kotd.close"),
-                        Exit -> this.onClose())
-                .bounds(left + 220, top + 205, 33, 13)
-                .build());
+            // Close Button (immer aktiv)
+            this.addRenderableWidget(Button.builder(
+                            Component.translatable("gui.kotd.close"),
+                            button -> this.onClose())
+                    .bounds(left + 200, top + 220, 40, 15)
+                    .build());
         }
     }
-    private void initPopup() {
-        Player player = Minecraft.getInstance().player;
-        if (player == null) return;
-        int popupX = width / 2 - 100;
-        int popupY = height / 2 - 50;
-        //noinspection unused
-        this.addRenderableWidget(new CloseButton(
-                popupX + 150, popupY + 80, 40, 15,
-                Component.translatable("gui.kotd.close")));
-
-        this.addRenderableWidget(new BlockingOverlay());
-        this.addRenderableWidget(new PopupBackground(popupX, popupY, 200, 100));
-
-    }
     private void initArmorPopup() {
+        pendingChanges = getArmorPiece(currentPopup).copy();
         ItemStack armorPiece = getArmorPiece(currentPopup);
         if (armorPiece.isEmpty() || !(armorPiece.getItem() instanceof KotdCrystalArmorItem)) {
             closePopup();
@@ -201,14 +215,13 @@ public class ConfigScreen extends Screen {
         }
 
         int popupX = width / 2 - 100;
-        int popupY = height / 2 - 50;
+        int popupY = height / 2 - 85;
 
         this.addRenderableWidget(new PopupTitle(
                 popupX + 20, popupY + 10, 160, 10,
                 Component.translatable("config.kotd.adjust_%s".formatted(currentPopup.name().toLowerCase()))
         ));
 
-        // Slider für jedes Attribut des Rüstungsteils
         List<ArmorAttribute> attributes = slotAttributes.get(getSlotForPopupType(currentPopup));
         if (attributes != null) {
             int yOffset = 30;
@@ -216,12 +229,16 @@ public class ConfigScreen extends Screen {
                 double currentValue = getCurrentAttributeValue(armorPiece, attr);
                 this.addRenderableWidget(new ArmorSlider(
                         popupX + 20, popupY + yOffset, 160, 20,
-                        currentValue, armorPiece, attr
+                        currentValue, attr
                 ));
                 yOffset += 25;
             }
         }
-
+        this.addRenderableWidget(new SaveButton(
+                popupX + 100, popupY + 150, 40, 15,
+                Component.translatable("gui.kotd.save"),
+                button -> saveChanges()
+        ));
         this.addRenderableWidget(new CloseButton(
                 popupX + 150, popupY + 150, 40, 15,
                 Component.translatable("gui.kotd.close")));
@@ -239,9 +256,6 @@ public class ConfigScreen extends Screen {
             default -> null;
         };
     }
-    private void initAttributePopup() {
-        // Implementierung für individuelle Attribut-Popups
-    }
     private ItemStack getArmorPiece(PopupType type) {
         Player player = Minecraft.getInstance().player;
         if (player == null) return ItemStack.EMPTY;
@@ -254,17 +268,29 @@ public class ConfigScreen extends Screen {
             default -> ItemStack.EMPTY;
         };
     }
-    private ItemStack getMainHand() {
-        Player player = Minecraft.getInstance().player;
-        return player != null ? player.getItemBySlot(EquipmentSlot.MAINHAND) : ItemStack.EMPTY;
-    }
     private double getCurrentAttributeValue(ItemStack armorPiece, ArmorAttribute attribute) {
         CustomData data = armorPiece.get(DataComponents.CUSTOM_DATA);
-        if (data == null) return attribute.baseValue() / 100; // Umrechnung von % zu Faktor
+        if (data == null) return 0.0;
 
         CompoundTag tag = data.copyTag();
         String key = "attr_%s".formatted(attribute.configKey());
-        return tag.contains(key) ? tag.getDouble(key) : attribute.baseValue() / 100;
+
+        double stored = tag.contains(key) ? tag.getDouble(key) : 0.0;
+        return stored / attribute.baseValue(); // Normiert auf 0–1 für den Slider
+    }
+    private boolean hasSwordEquipped() {
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return false;
+
+        return player.getMainHandItem().getItem() instanceof UltimateKotdBlade ||
+                player.getOffhandItem().getItem() instanceof UltimateKotdBlade;
+    }
+    private boolean isArmorEquipped(EquipmentSlot slot) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return false;
+
+        ItemStack armorStack = player.getItemBySlot(slot);
+        return armorStack.getItem() instanceof KotdCrystalArmorItem;
     }
 
 
@@ -332,32 +358,65 @@ public class ConfigScreen extends Screen {
         protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
         }
     }
-    private static class ArmorSlider extends AbstractSliderButton {
-        private final ItemStack armorPiece;
+    private class ArmorSlider extends AbstractSliderButton {
         private final ArmorAttribute attribute;
 
         public ArmorSlider(int x, int y, int width, int height,
-                           double value, ItemStack armorPiece, ArmorAttribute attribute) {
-            super(x, y, width, height, Component.empty(), value);
-            this.armorPiece = armorPiece;
+                           double normalizedValue, ArmorAttribute attribute) {
+            super(x, y, width, height, Component.empty(), normalizedValue);
             this.attribute = attribute;
             updateMessage();
         }
 
         @Override
         protected void updateMessage() {
-            this.setMessage(Component.literal("%s: %s".formatted(attribute.displayName().getString(), String.format("%.0f%%", this.value * 100))));
+            double realValue = this.value * attribute.baseValue(); // Skalierter Wert
+            this.setMessage(Component.literal("%s: %.2f".formatted(
+                    attribute.displayName().getString(), realValue
+            )));
         }
 
         @Override
         protected void applyValue() {
-            if (armorPiece.getItem() instanceof KotdCrystalArmorItem) {
-                CustomData data = armorPiece.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-                CompoundTag tag = data.copyTag();
-                tag.putDouble("attr_%s".formatted(attribute.configKey()), this.value);
-                armorPiece.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
-            }
+            if (pendingChanges == null) return;
+
+            CustomData data = pendingChanges.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+            CompoundTag tag = data.copyTag();
+            double scaledValue = this.value * attribute.baseValue();
+            String key = "attr_%s".formatted(attribute.configKey());
+            tag.putDouble(key, scaledValue);
+
+            pendingChanges.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+            updateMessage();
         }
+    }
+    private class SaveButton extends Button {
+        public SaveButton(int x, int y, int width, int height, Component message, OnPress onPress) {
+            super(x, y, width, height, message, onPress, DEFAULT_NARRATION);
+        }
+
+        @Override
+        public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+            // Custom Rendering
+            int color = this.isHovered ? 0xFF55FF55 : 0xFF33DD33;
+            guiGraphics.fill(this.getX(), this.getY(),
+                    this.getX() + this.width,
+                    this.getY() + this.height,
+                    color);
+
+            guiGraphics.drawCenteredString(font, getMessage(),
+                    this.getX() + this.width / 2,
+                    this.getY() + (this.height - 8) / 2,
+                    0xFFFFFF);
+        }
+    }
+    private void saveChanges() {
+        if (pendingChanges == null || Minecraft.getInstance().player == null) return;
+        PacketDistributor.sendToServer(new UpdateArmorAttributesPacket(
+                getSlotForPopupType(currentPopup),
+                pendingChanges
+        ));
+        closePopup();
     }
     private class CloseButton extends Button {
         public CloseButton(int x, int y, int width, int height, Component message) {

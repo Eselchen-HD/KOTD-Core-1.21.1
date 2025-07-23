@@ -7,6 +7,8 @@ import de.eselgamerhd.kotd.common.init.KotdArmorMaterials;
 import de.eselgamerhd.kotd.common.init.KotdItems;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -20,6 +22,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForgeMod;
@@ -42,10 +45,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class KotdCrystalArmorItem extends ArmorItem implements GeoItem, IEnergyContainer {
-
-    private final int capacity;
-    private final int maxReceive;
-    private final int maxExtract;
     private static final Map<Holder<ArmorMaterial>, List<MobEffectInstance>> MATERIAL_TO_EFFECT_MAP = ImmutableMap.of(KotdArmorMaterials.KOTD_ARMOR_MATERIAL,
             List.of(
                     new MobEffectInstance(MobEffects.REGENERATION, 100, 1, false, false,false, null),
@@ -66,9 +65,6 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem, IEnergyC
     public KotdCrystalArmorItem(Type type, Properties settings) {
         super(KotdArmorMaterials.KOTD_ARMOR_MATERIAL, type, settings);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
-        this.capacity = 1000000;
-        this.maxReceive = 10000;
-        this.maxExtract = 10000;
     }
 
     @Override
@@ -89,18 +85,6 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem, IEnergyC
     @Override
     public int getMaxEnergyStored() {
         return 0;
-    }
-
-    public int getMaxReceive() {
-        return maxReceive;
-    }
-
-    public int getMaxExtract() {
-        return maxExtract;
-    }
-
-    public int getCapacity() {
-        return capacity;
     }
 
     public static class KotdCrystalArmorRenderer extends GeoArmorRenderer<KotdCrystalArmorItem> {public KotdCrystalArmorRenderer() {super(new KotdCrystalArmorModel());}}
@@ -124,38 +108,26 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem, IEnergyC
         });
     }
     @Override
-    public @NotNull ItemAttributeModifiers getDefaultAttributeModifiers() {
+    public @NotNull ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
         EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(this.type.getSlot());
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
         addBaseAttributes(builder, group);
+        CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        CompoundTag tag = data.copyTag();
 
-        if (this.type == Type.HELMET) {
-            addAttribute(builder, group, Attributes.OXYGEN_BONUS, 10.0, "oxygen_bonus");
-        }
-        if (this.type == Type.CHESTPLATE) {
-            addAttribute(builder, group, Attributes.MAX_HEALTH, 30.0, "health_boost");
-            addAttribute(builder, group, Attributes.MINING_EFFICIENCY, 15.0*10, "mining_efficiency_boost");
-        }
-        if (this.type == Type.LEGGINGS) {
-            addAttribute(builder, group, Attributes.MOVEMENT_SPEED, 0.1*0.5, "movement_speed_boost");
-            addAttribute(builder, group, Attributes.SNEAKING_SPEED, 0.2, "sneaking_speed_boost");
-            addAttribute(builder, group, Attributes.WATER_MOVEMENT_EFFICIENCY, 2.0, "water_movement_boost");
-        }
-        if (this.type == Type.BOOTS) {
-            addAttribute(builder, group, Attributes.SAFE_FALL_DISTANCE, 999.0, "safe_fall_distance");
-            addAttribute(builder, group, Attributes.JUMP_STRENGTH, 0.2, "jump_strength_boost");
-            addAttribute(builder, group, Attributes.STEP_HEIGHT, 1.0, "step_height");
-        }
-
-        addAttribute(builder, group, NeoForgeMod.CREATIVE_FLIGHT, 0.25, "creative_flight");
-        addAttribute(builder, group, Attributes.ATTACK_DAMAGE, 3.3, "damage_boost");
-        addAttribute(builder, group, Attributes.ATTACK_SPEED, 3.3, "attack_speed_boost");
-        addAttribute(builder, group, Attributes.LUCK, 10.0, "luck_boost");
+        addAttribute(builder, group, Attributes.OXYGEN_BONUS, tag, "oxygen_bonus", 0.0);
+        addAttribute(builder, group, Attributes.MAX_HEALTH, tag, "health_boost", 0.0);
+        addAttribute(builder, group, Attributes.FLYING_SPEED, tag, "fly_speed", 0.0);
+        addAttribute(builder, group, Attributes.MOVEMENT_SPEED, tag, "movement_speed", 0.0);
+        addAttribute(builder, group, Attributes.SNEAKING_SPEED, tag, "movement_speed", 0.0);
+        addAttribute(builder, group, NeoForgeMod.SWIM_SPEED, tag, "swim_speed", 0.0);
+        addAttribute(builder, group, Attributes.JUMP_STRENGTH, tag, "jump_strength", 0.0);
+        addAttribute(builder, group, Attributes.STEP_HEIGHT, tag, "step_height", 0.0);
+        addAttribute(builder, group, Attributes.MINING_EFFICIENCY, tag, "efficiency", 0.0);
+        addAttribute(builder, group, NeoForgeMod.CREATIVE_FLIGHT, tag, "fly", 0.25);
 
         return builder.build();
     }
-
-    @SuppressWarnings("StringTemplateMigration")
     private void addBaseAttributes(ItemAttributeModifiers.Builder builder, EquipmentSlotGroup group) {
         int defense = this.getMaterial().value().getDefense(this.type);
         float toughness = this.getMaterial().value().toughness();
@@ -168,13 +140,21 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem, IEnergyC
             builder.add(Attributes.KNOCKBACK_RESISTANCE, createModifier("armor." + this.type.getName(), knockbackResistance), group);
         }
     }
-    private void addAttribute(ItemAttributeModifiers.Builder builder, EquipmentSlotGroup group, Holder<Attribute> attribute, double value, String name) {
+
+    private void addAttribute(ItemAttributeModifiers.Builder builder,
+                              EquipmentSlotGroup slot,
+                              Holder<Attribute> attribute,
+                              CompoundTag tag,
+                              String key,
+                              double fallbackValue) {
+
+        double value = tag.contains("attr_%s".formatted(key)) ?
+                tag.getDouble("attr_%s".formatted(key)) :
+                fallbackValue;
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Kotd.MODID, key);
         builder.add(attribute,
-                new AttributeModifier(
-                        ResourceLocation.fromNamespaceAndPath(Kotd.MODID, name),
-                        value,
-                        AttributeModifier.Operation.ADD_VALUE
-                ), group);
+                new AttributeModifier(id, value, AttributeModifier.Operation.ADD_VALUE),
+                slot);
     }
     private AttributeModifier createModifier(String name, double value) {
         return new AttributeModifier(

@@ -33,8 +33,8 @@ import static de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullBlock.MAGICAL;
 
 @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup {
-    public static void commonSetup(FMLCommonSetupEvent ignoredEvent) {LOGGER.info("KOTD Mod common setup initialized");}
-
+    public static void commonSetup(FMLCommonSetupEvent ignoredEvent) {
+        LOGGER.info("KOTD Mod common setup initialized");}
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         SkullBlockRenderer.SKIN_BY_TYPE.put(MAGICAL, ResourceLocation.fromNamespaceAndPath(MODID, "textures/block/magical_skull.png"));

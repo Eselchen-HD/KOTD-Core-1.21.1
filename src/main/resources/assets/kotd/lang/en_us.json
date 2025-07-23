@@ -61,5 +61,14 @@
   "block.kotd.angel_block": "§bAngel Block",
 
   "item.kotd.off_hand_crossbow": "Offhand Crossbow",
-    "tooltip.kotd.OffHandCrossbow": "§8A crossbow that can be held in the off-hand slot, allowing for quick access to ranged attacks without taking up the main hand."
+    "tooltip.kotd.OffHandCrossbow": "§8A crossbow that can be held in the off-hand slot, allowing for quick access to ranged attacks without taking up the main hand.",
+  "tooltip.kotd.kotd_item": "This is just a test item for the KOTD Mod",
+  "gui.kotd.save": "Save",
+  "attribute.kotd.fly_speed": "Fly Speed",
+  "attribute.kotd.swim_movement": "Swimming speed",
+  "tooltip.kotd.equip_helmet": "§cYou have to wear your helmet!",
+  "tooltip.kotd.equip_chestplate": "§cYou have to wear your chestplate!",
+  "tooltip.kotd.equip_leggings": "§cYou have to wear your leggings!",
+  "tooltip.kotd.equip_boots": "§cYou have to wear your boots!",
+  "tooltip.kotd.equip_sword": "§cYour sword must be in your main hand!"
 }

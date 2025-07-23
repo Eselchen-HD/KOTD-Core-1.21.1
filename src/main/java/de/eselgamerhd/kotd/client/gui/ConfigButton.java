@@ -126,8 +126,8 @@ public class ConfigButton extends AbstractConfigButton {
 abstract class AbstractConfigButton extends AbstractButton {
     protected static final WidgetSprites SPRITES = new WidgetSprites(
             ResourceLocation.fromNamespaceAndPath(Kotd.MODID, "widget/button"),
-            ResourceLocation.fromNamespaceAndPath(Kotd.MODID, "widget/button_hovered"),
-            ResourceLocation.fromNamespaceAndPath(Kotd.MODID, "widget/button_disabled")
+            ResourceLocation.fromNamespaceAndPath(Kotd.MODID, "widget/button_disabled"),
+            ResourceLocation.fromNamespaceAndPath(Kotd.MODID, "widget/button_hovered")
     );
 
     public AbstractConfigButton(int x, int y, int width, int height, Component message) {
