@@ -1,6 +1,7 @@
 package de.eselgamerhd.kotd;
 
 import de.eselgamerhd.kotd.client.event.ClientSetup;
+import de.eselgamerhd.kotd.client.gui.ConfigScreen;
 import de.eselgamerhd.kotd.client.keybinding.KeyBinds;
 import de.eselgamerhd.kotd.common.init.KotdBlocks;
 import de.eselgamerhd.kotd.common.init.KotdEntities;
@@ -10,11 +11,14 @@ import com.mojang.logging.LogUtils;
 import de.eselgamerhd.kotd.common.integrations.equipment.IEquipmentManager;
 import de.eselgamerhd.kotd.network.KotdNetwork;
 import de.eselgamerhd.kotd.worldgen.dimension.CustomDimensionEffects;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
@@ -47,7 +51,15 @@ public class Kotd {
     public void onServerStarted(ServerStartingEvent event) {
         LOGGER.info("Initializing KOTD");
     }
-    
+    @SubscribeEvent
+    public void onClientTick(ClientTickEvent.Post event) {
+        if (KeyBinds.OPEN_ATTRIBUTE_MENU.consumeClick()) {
+            Player player = Minecraft.getInstance().player;
+            if (ConfigScreen.hasArmorPiece(player)) {
+                Minecraft.getInstance().setScreen(new ConfigScreen());
+            }
+        }
+    }
     /*
      *todo Darkness Boss 9phasen (Von den Knight of the dark's)
      *todo Knight of The Dark Boss 8x
