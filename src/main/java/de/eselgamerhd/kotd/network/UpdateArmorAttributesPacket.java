@@ -5,12 +5,17 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public record UpdateArmorAttributesPacket(EquipmentSlot slot, ItemStack stack) implements CustomPacketPayload {
+import java.util.Objects;
+
+public record UpdateArmorAttributesPacket(@Nullable EquipmentSlot slot, ItemStack stack, boolean isSword) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<UpdateArmorAttributesPacket> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Kotd.MODID, "update_armor_attributes"));
 
@@ -21,15 +26,18 @@ public record UpdateArmorAttributesPacket(EquipmentSlot slot, ItemStack stack) i
             );
 
     private static void encode(RegistryFriendlyByteBuf buf, UpdateArmorAttributesPacket packet) {
-        buf.writeEnum(packet.slot());
+        buf.writeBoolean(packet.isSword());
+        if (!packet.isSword()) {
+            buf.writeEnum(Objects.requireNonNull(packet.slot()));
+        }
         ItemStack.STREAM_CODEC.encode(buf, packet.stack());
     }
 
     private static UpdateArmorAttributesPacket decode(RegistryFriendlyByteBuf buf) {
-        return new UpdateArmorAttributesPacket(
-                buf.readEnum(EquipmentSlot.class),
-                ItemStack.STREAM_CODEC.decode(buf)
-        );
+        boolean isSword = buf.readBoolean();
+        EquipmentSlot slot = isSword ? null : buf.readEnum(EquipmentSlot.class);
+        ItemStack stack = ItemStack.STREAM_CODEC.decode(buf);
+        return new UpdateArmorAttributesPacket(slot, stack, isSword);
     }
 
     @Override
@@ -38,6 +46,13 @@ public record UpdateArmorAttributesPacket(EquipmentSlot slot, ItemStack stack) i
     }
 
     public static void handle(UpdateArmorAttributesPacket packet, IPayloadContext context) {
-        context.player().setItemSlot(packet.slot(), packet.stack());
+        context.enqueueWork(() -> {
+            Player player = context.player();
+            if (packet.isSword()) {
+                player.setItemInHand(InteractionHand.MAIN_HAND, packet.stack());
+            } else {
+                player.setItemSlot(Objects.requireNonNull(packet.slot()), packet.stack());
+            }
+        });
     }
 }

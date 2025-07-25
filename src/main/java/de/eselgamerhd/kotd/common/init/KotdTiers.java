@@ -10,6 +10,7 @@ import static net.minecraft.world.item.crafting.Ingredient.of;
 public class KotdTiers {
     public static final Tier KOTD_TIER = new SimpleTier(INCORRECT_FOR_NETHERITE_TOOL, 2147483647, 9.0F, 7.0F, 25, () -> of(KOTD_CRYSTAL.get()));
 
+    @SuppressWarnings("unused")
     public enum StateTier {
         KOTD(1.0, 1.0),
         ULTIMATE(1.5, 1.3),

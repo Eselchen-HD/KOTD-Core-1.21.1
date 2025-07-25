@@ -1,6 +1,7 @@
 package de.eselgamerhd.kotd.common.items.item.offHandCrossBow;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -12,11 +13,14 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import static net.minecraft.network.chat.Component.*;
 
@@ -65,7 +69,21 @@ public class OffHandCrossbow extends CrossbowItem implements GeoItem {
             player.displayClientMessage(literal("This crossbow must be used in your off-hand!").withStyle(ChatFormatting.UNDERLINE, ChatFormatting.RED), true);
         }
     }
+    public static class OffHandCrossbowRenderer extends GeoItemRenderer<OffHandCrossbow> { public OffHandCrossbowRenderer() {super(new OffHandCrossbowModel());}}
 
+    @Override
+    public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
+        consumer.accept(new GeoRenderProvider() {
+            private OffHandCrossbowRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
+                if (this.renderer == null)
+                    this.renderer = new OffHandCrossbowRenderer();
+                return this.renderer;
+            }
+        });
+    }
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         // Hier Animationen registrieren (z.B. für Laden/Schießen)

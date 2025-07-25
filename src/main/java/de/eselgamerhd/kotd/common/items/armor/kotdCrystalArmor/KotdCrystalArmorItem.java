@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.Unbreakable;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import org.jetbrains.annotations.NotNull;
@@ -87,6 +88,11 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
         });
     }
     @Override
+    public void onCraftedBy(@NotNull ItemStack stack, @NotNull Level level, @NotNull Player player) {
+        stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
+        super.onCraftedBy(stack, level, player);
+    }
+    @Override
     public @NotNull ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
         EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(this.type.getSlot());
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
@@ -94,16 +100,27 @@ public class KotdCrystalArmorItem extends ArmorItem implements GeoItem {
         CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
         CompoundTag tag = data.copyTag();
 
-        addAttribute(builder, group, Attributes.OXYGEN_BONUS, tag, "oxygen_bonus", 0.0);
-        addAttribute(builder, group, Attributes.MAX_HEALTH, tag, "health_boost", 0.0);
-        addAttribute(builder, group, Attributes.FLYING_SPEED, tag, "fly_speed", 0.0);
-        addAttribute(builder, group, Attributes.MOVEMENT_SPEED, tag, "movement_speed", 0.0);
-        addAttribute(builder, group, Attributes.SNEAKING_SPEED, tag, "movement_speed", 0.0);
-        addAttribute(builder, group, NeoForgeMod.SWIM_SPEED, tag, "swim_speed", 0.0);
-        addAttribute(builder, group, Attributes.JUMP_STRENGTH, tag, "jump_strength", 0.0);
-        addAttribute(builder, group, Attributes.STEP_HEIGHT, tag, "step_height", 0.0);
-        addAttribute(builder, group, Attributes.MINING_EFFICIENCY, tag, "efficiency", 0.0);
-        addAttribute(builder, group, NeoForgeMod.CREATIVE_FLIGHT, tag, "fly", 0.25);
+        switch (this.type) {
+            case HELMET -> {
+                addAttribute(builder, group, Attributes.MINING_EFFICIENCY, tag, "efficiency", 0.0);
+                addAttribute(builder, group, Attributes.OXYGEN_BONUS, tag, "oxygen_bonus", 30.0);
+            }
+            case CHESTPLATE -> {
+                addAttribute(builder, group, Attributes.MAX_HEALTH, tag, "health_boost", 0.0);
+                addAttribute(builder, group, Attributes.FLYING_SPEED, tag, "fly_speed", 0.0);
+                addAttribute(builder, group, NeoForgeMod.CREATIVE_FLIGHT, tag, "fly", 0.25);
+                addAttribute(builder, group, Attributes.BLOCK_INTERACTION_RANGE, tag, "interaction_range", 0.0);
+            }
+            case LEGGINGS -> {
+                addAttribute(builder, group, Attributes.MOVEMENT_SPEED, tag, "movement_speed", 0.0);
+                addAttribute(builder, group, Attributes.SNEAKING_SPEED, tag, "movement_speed", 0.0);
+                addAttribute(builder, group, NeoForgeMod.SWIM_SPEED, tag, "swim_speed", 0.0);
+            }
+            case BOOTS -> {
+                addAttribute(builder, group, Attributes.JUMP_STRENGTH, tag, "jump_strength", 0.0);
+                addAttribute(builder, group, Attributes.STEP_HEIGHT, tag, "step_height", 0.0);
+            }
+        }
 
         return builder.build();
     }

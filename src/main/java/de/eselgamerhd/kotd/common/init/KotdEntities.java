@@ -25,7 +25,7 @@ public class KotdEntities {
             () -> BlockEntityType.Builder.of(FlowerPotPackEntity::new, KotdBlocks.FLOWER_POT_PACK.get()).build(null));
     @SuppressWarnings("DataFlowIssue")
     public static final Supplier<BlockEntityType<MagicalSkullBlockEntity>> MAGICAL_SKULL_BE = BLOCK_ENTITIES.register("magical_skull_be",
-            () -> BlockEntityType.Builder.of(MagicalSkullBlockEntity::new, KotdBlocks.MAGICAL_SKULL.get(), KotdBlocks.MAGICAL_WALL_SKULL.get()).build(null));
+            () -> BlockEntityType.Builder.of(MagicalSkullBlockEntity::new, KotdBlocks.MAGICAL_SKULL_BLOCK.get(), KotdBlocks.MAGICAL_WALL_SKULL.get()).build(null));
 
     public static final DeferredHolder<EntityType<?>, EntityType<LaserBeam>> LASER_BEAM = ENTITY_TYPES.register("black_hole",
             () -> EntityType.Builder.of(LaserBeam::new, MobCategory.MISC).sized(0.5f, 0.5f).clientTrackingRange(64)

@@ -32,6 +32,7 @@ public class Kotd {
         NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
+        //modEventBus.register(PickaxeEventHandler.class);
         KotdBlocks.register(modEventBus);
         KotdItems.register(modEventBus);
         KotdSounds.register(modEventBus);

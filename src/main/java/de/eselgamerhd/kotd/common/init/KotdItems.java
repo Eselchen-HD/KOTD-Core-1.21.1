@@ -6,6 +6,7 @@ import de.eselgamerhd.kotd.common.items.item.Scythe.MertScythe;
 import de.eselgamerhd.kotd.common.items.item.dormantBlackHole.DormantBlackHole;
 import de.eselgamerhd.kotd.common.items.item.offHandCrossBow.OffHandCrossbow;
 import de.eselgamerhd.kotd.common.items.item.ultimateKotdBlade.UltimateKotdBlade;
+import de.eselgamerhd.kotd.common.items.item.ultimateKotdPickaxe.UltimateKotdPickaxe;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
@@ -26,15 +27,16 @@ public class KotdItems {
 
     public static final DeferredItem<DormantBlackHole> DORMANT_BLACK_HOLE = ITEMS.registerItem("dormant_black_hole", (properties) -> new DormantBlackHole(properties.fireResistant().stacksTo(8).rarity(Rarity.EPIC)));
     public static final DeferredItem<AngelBlockItem> ANGEL_BLOCK_ITEM = ITEMS.register("angel_block", () -> new AngelBlockItem(ANGEL_BLOCK.get(), new Item.Properties()));
-    public static final DeferredItem<StandingAndWallBlockItem> MAGICAL_SKULL = ITEMS.register("magical_skull", () -> new StandingAndWallBlockItem(KotdBlocks.MAGICAL_SKULL.get(), KotdBlocks.MAGICAL_WALL_SKULL.get(), new Item.Properties(), Direction.DOWN));
+    public static final DeferredItem<StandingAndWallBlockItem> MAGICAL_SKULL = ITEMS.register("magical_skull", () -> new StandingAndWallBlockItem(KotdBlocks.MAGICAL_SKULL_BLOCK.get(), KotdBlocks.MAGICAL_WALL_SKULL.get(), new Item.Properties(), Direction.DOWN));
 
-    public static final DeferredItem<UltimateKotdBlade> ULTIMATE_KOTD_BLADE = ITEMS.registerItem("ultimate_kotd_blade", (properties) -> new UltimateKotdBlade(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER, 132, -1.0f))));
+    public static final DeferredItem<UltimateKotdBlade> ULTIMATE_KOTD_BLADE = ITEMS.registerItem("ultimate_kotd_blade", (properties) -> new UltimateKotdBlade(KOTD_TIER, properties.fireResistant()));
     public static final DeferredItem<OffHandCrossbow> OFF_HAND_CROSSBOW = ITEMS.register("off_hand_crossbow", () -> new OffHandCrossbow(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON), 5.0f,  30));
     public static final DeferredItem<KotdCrystalSword> KOTD_CRYSTAL_SWORD = ITEMS.registerItem("kotd_crystal_sword", (properties) -> new KotdCrystalSword(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER,57,-0.6f))));
     public static final DeferredItem<MertScythe> SCYTHE = ITEMS.registerItem("mert_scythe", (properties) -> new MertScythe(KOTD_TIER, properties.fireResistant().attributes(SwordItem.createAttributes(KOTD_TIER, 32, -2.4f)), 39 , 53));
 
     public static final DeferredItem<ShovelItem> KOTD_CRYSTAL_SHOVEL = ITEMS.registerItem("kotd_crystal_shovel", (properties) -> new ShovelItem(KOTD_TIER, properties.fireResistant().attributes(ShovelItem.createAttributes(KOTD_TIER, 5.5f, -1.1f))));
     public static final DeferredItem<PickaxeItem> KOTD_CRYSTAL_PICKAXE = ITEMS.registerItem("kotd_crystal_pickaxe", (properties) -> new PickaxeItem(KOTD_TIER, properties.fireResistant().attributes(PickaxeItem.createAttributes(KOTD_TIER, 14.5f, -1.2f))));
+    public static final DeferredItem<UltimateKotdPickaxe> ULTIMATE_KOTD_PICKAXE = ITEMS.registerItem("ultimate_kotd_pickaxe", (properties) -> new UltimateKotdPickaxe(KOTD_TIER, properties.fireResistant().attributes(PickaxeItem.createAttributes(KOTD_TIER, 14.5f, -1.2f))));
     public static final DeferredItem<AxeItem> KOTD_CRYSTAL_AXE = ITEMS.registerItem("kotd_crystal_axe", (properties) -> new AxeItem(KOTD_TIER, properties.fireResistant().attributes(AxeItem.createAttributes(KOTD_TIER, 62.0f, -2.8f))));
     public static final DeferredItem<HoeItem> KOTD_CRYSTAL_HOE = ITEMS.registerItem("kotd_crystal_hoe", (properties) -> new HoeItem(KOTD_TIER, properties.fireResistant().attributes(HoeItem.createAttributes(KOTD_TIER, 1.0f, -1.2f))));
 

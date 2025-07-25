@@ -15,7 +15,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -42,18 +41,18 @@ public class ConfigScreen extends Screen {
         super(Component.translatable("gui.kotd.attribute_menu"));
     }
 
-    public record ArmorAttribute(
+    public record Attribute(
             Component displayName,
-            Holder<Attribute> attribute,
+            Holder<net.minecraft.world.entity.ai.attributes.Attribute> attribute,
             double baseValue,
             EquipmentSlot slot,
             String configKey
     ) {}
-    private final Map<EquipmentSlot, List<ArmorAttribute>> slotAttributes = new HashMap<>();
+    private final Map<EquipmentSlot, List<Attribute>> slotAttributes = new HashMap<>();
     private void initSlotAttributes() {
         slotAttributes.put(
                 EquipmentSlot.HEAD, List.of(
-                        new ArmorAttribute(
+                        new Attribute(
                                 Component.translatable("attribute.kotd.efficiency"),
                                 Attributes.MINING_EFFICIENCY,
                                 50.0,
@@ -64,32 +63,32 @@ public class ConfigScreen extends Screen {
 
         slotAttributes.put(
                 EquipmentSlot.CHEST, List.of(
-                        new ArmorAttribute(
+                        new Attribute(
                                 Component.translatable("attribute.kotd.health"),
                                 Attributes.MAX_HEALTH,
                                 50.0,
                                 EquipmentSlot.CHEST,
                                 "health_boost"
                         ),
-                        new ArmorAttribute(
-                                Component.translatable("attribute.kotd.fly_speed"),
-                                Attributes.FLYING_SPEED,
-                                1000.0,
+                        new Attribute(
+                                Component.translatable("attribute.kotd.interaction_range"),
+                                Attributes.BLOCK_INTERACTION_RANGE,
+                                100.0,
                                 EquipmentSlot.CHEST,
-                                "fly_speed"
+                                "interaction_range"
                         )
                 ));
 
         slotAttributes.put(
                 EquipmentSlot.LEGS, List.of(
-                        new ArmorAttribute(
+                        new Attribute(
                                 Component.translatable("attribute.kotd.movement"),
                                 Attributes.MOVEMENT_SPEED,
                                 1.0,
                                 EquipmentSlot.LEGS,
                                 "movement_speed"
                         ),
-                        new ArmorAttribute(
+                        new Attribute(
                                 Component.translatable("attribute.kotd.swim_movement"),
                                 NeoForgeMod.SWIM_SPEED,
                                 10.0,
@@ -99,14 +98,14 @@ public class ConfigScreen extends Screen {
                 ));
         slotAttributes.put(
                 EquipmentSlot.FEET, List.of(
-                        new ArmorAttribute(
+                        new Attribute(
                                 Component.translatable("attribute.kotd.step"),
                                 Attributes.STEP_HEIGHT,
                                 10.0,
                                 EquipmentSlot.FEET,
                                 "step_height"
                         ),
-                        new ArmorAttribute(
+                        new Attribute(
                                 Component.translatable("attribute.kotd.jump_strength"),
                                 Attributes.JUMP_STRENGTH,
                                 1.0,
@@ -115,6 +114,15 @@ public class ConfigScreen extends Screen {
                         )
                 ));
     }
+    private final List<Attribute> swordAttributes = List.of(
+            new Attribute(
+                    Component.translatable("attribute.kotd.attack_damage"),
+                    Attributes.ATTACK_DAMAGE,
+                    145.0,
+                    EquipmentSlot.MAINHAND,
+                    "attack_damage"
+            )
+    );
 
     @Override
     protected void init() {
@@ -126,13 +134,14 @@ public class ConfigScreen extends Screen {
 
         initSlotAttributes();
 
-        if (currentPopup != PopupType.NONE) {
+        if (currentPopup == PopupType.SWORD) {
+            initMainHandPopup();
+        } else if (currentPopup != PopupType.NONE) {
             initArmorPopup();
         }
 
         addMainButtons(left, top);
     }
-    @SuppressWarnings("unused")
     private void addMainButtons(int left, int top) {
         if (currentPopup == PopupType.NONE) {
             Player player = Minecraft.getInstance().player;
@@ -142,7 +151,7 @@ public class ConfigScreen extends Screen {
             ConfigButton helmetButton = ConfigButton.builder(
                             Component.translatable("config.kotd.helmet"),
                             button -> openPopup(PopupType.HELMET))
-                    .bounds(left + 20, top + 20, 59, 15)
+                    .bounds(left + 20, top + 40, 59, 15)
                     .build();
             helmetButton.active = isArmorEquipped(EquipmentSlot.HEAD);
             if (!helmetButton.active) {
@@ -154,7 +163,7 @@ public class ConfigScreen extends Screen {
             ConfigButton chestplateButton = ConfigButton.builder(
                             Component.translatable("config.kotd.chestplate"),
                             button -> openPopup(PopupType.CHESTPLATE))
-                    .bounds(left + 20, top + 35, 59, 15)
+                    .bounds(left + 20, top + 60, 59, 15)
                     .build();
             chestplateButton.active = isArmorEquipped(EquipmentSlot.CHEST);
             if (!chestplateButton.active) {
@@ -166,7 +175,7 @@ public class ConfigScreen extends Screen {
             ConfigButton leggingsButton = ConfigButton.builder(
                             Component.translatable("config.kotd.leggings"),
                             button -> openPopup(PopupType.LEGGINGS))
-                    .bounds(left + 20, top + 50, 59, 15)
+                    .bounds(left + 20, top + 80, 59, 15)
                     .build();
             leggingsButton.active = isArmorEquipped(EquipmentSlot.LEGS);
             if (!leggingsButton.active) {
@@ -178,7 +187,7 @@ public class ConfigScreen extends Screen {
             ConfigButton bootsButton = ConfigButton.builder(
                             Component.translatable("config.kotd.boots"),
                             button -> openPopup(PopupType.BOOTS))
-                    .bounds(left + 20, top + 65, 59, 15)
+                    .bounds(left + 20, top + 100, 59, 15)
                     .build();
             bootsButton.active = isArmorEquipped(EquipmentSlot.FEET);
             if (!bootsButton.active) {
@@ -186,11 +195,11 @@ public class ConfigScreen extends Screen {
             }
             this.addRenderableWidget(bootsButton);
 
-            // Sword Button (separate Logik)
+            // Sword Button
             ConfigButton swordButton = ConfigButton.builder(
                             Component.translatable("config.kotd.sword"),
                             button -> openPopup(PopupType.SWORD))
-                    .bounds(left + 90, top + 65, 59, 15)
+                    .bounds(left + 175, top + 40, 59, 15)
                     .build();
             swordButton.active = hasSwordEquipped();
             if (!swordButton.active) {
@@ -198,11 +207,10 @@ public class ConfigScreen extends Screen {
             }
             this.addRenderableWidget(swordButton);
 
-            // Close Button (immer aktiv)
             this.addRenderableWidget(Button.builder(
                             Component.translatable("gui.kotd.close"),
                             button -> this.onClose())
-                    .bounds(left + 200, top + 220, 40, 15)
+                    .bounds(left + 230, top + 10, 12, 12)
                     .build());
         }
     }
@@ -217,17 +225,13 @@ public class ConfigScreen extends Screen {
         int popupX = width / 2 - 100;
         int popupY = height / 2 - 85;
 
-        this.addRenderableWidget(new PopupTitle(
-                popupX + 20, popupY + 10, 160, 10,
-                Component.translatable("config.kotd.adjust_%s".formatted(currentPopup.name().toLowerCase()))
-        ));
 
-        List<ArmorAttribute> attributes = slotAttributes.get(getSlotForPopupType(currentPopup));
+        List<Attribute> attributes = slotAttributes.get(getSlotForPopupType(currentPopup));
         if (attributes != null) {
             int yOffset = 30;
-            for (ArmorAttribute attr : attributes) {
+            for (Attribute attr : attributes) {
                 double currentValue = getCurrentAttributeValue(armorPiece, attr);
-                this.addRenderableWidget(new ArmorSlider(
+                this.addRenderableWidget(new AttributeSlider(
                         popupX + 20, popupY + yOffset, 160, 20,
                         currentValue, attr
                 ));
@@ -235,64 +239,79 @@ public class ConfigScreen extends Screen {
             }
         }
         this.addRenderableWidget(new SaveButton(
-                popupX + 100, popupY + 150, 40, 15,
+                popupX + 140, popupY + 150, 40, 15,
                 Component.translatable("gui.kotd.save"),
                 button -> saveChanges()
         ));
         this.addRenderableWidget(new CloseButton(
-                popupX + 150, popupY + 150, 40, 15,
+                popupX + 170, popupY + 10, 12, 12,
                 Component.translatable("gui.kotd.close")));
+
+        this.addRenderableWidget(new PopupTitle(
+                popupX + 20, popupY + 10, 160, 10,
+                Component.translatable("config.kotd.adjust_%s".formatted(currentPopup.name().toLowerCase()))
+        ));
+        this.addRenderableWidget(new BlockingOverlay());
+        this.addRenderableWidget(new PopupBackground(popupX, popupY, 200, 180));
+    }
+    private void openPopup(PopupType type) {
+        currentPopup = type;
+        this.renderables.forEach(widget -> {
+            if (widget instanceof AbstractWidget abstractWidget) {
+                abstractWidget.visible = false;
+                abstractWidget.active = false;
+            }
+        });
+        this.rebuildWidgets();
+    }
+    private void closePopup() {
+        currentPopup = PopupType.NONE;
+        this.renderables.forEach(widget -> {
+            if (widget instanceof AbstractWidget abstractWidget) {
+                abstractWidget.visible = true;
+                abstractWidget.active = true;
+            }
+        });
+        this.rebuildWidgets();
+    }
+    private void initMainHandPopup() {
+        pendingChanges = Objects.requireNonNull(Minecraft.getInstance().player).getMainHandItem().copy();
+        ItemStack sword = pendingChanges;
+
+        if (sword.isEmpty() || !(sword.getItem() instanceof UltimateKotdBlade)) {
+            closePopup();
+            return;
+        }
+
+        int popupX = width / 2 - 100;
+        int popupY = height / 2 - 85;
+
+        int yOffset = 30;
+        for (Attribute attr : swordAttributes) {
+            double currentValue = getCurrentAttributeValue(sword, attr);
+            this.addRenderableWidget(new AttributeSlider(
+                    popupX + 20, popupY + yOffset, 160, 20,
+                    currentValue, attr
+            ));
+            yOffset += 25;
+        }
+
+        this.addRenderableWidget(new SaveButton(
+                popupX + 140, popupY + 150, 40, 15,
+                Component.translatable("gui.kotd.save"),
+                button -> saveChanges()
+        ));
+        this.addRenderableWidget(new CloseButton(
+                popupX + 170, popupY + 10, 12, 12,
+                Component.translatable("gui.kotd.close")));
+
+        this.addRenderableWidget(new PopupTitle(
+                popupX + 20, popupY + 10, 160, 10,
+                Component.translatable("config.kotd.adjust_sword")));
 
         this.addRenderableWidget(new BlockingOverlay());
         this.addRenderableWidget(new PopupBackground(popupX, popupY, 200, 180));
     }
-
-    private EquipmentSlot getSlotForPopupType(PopupType type) {
-        return switch (type) {
-            case HELMET -> EquipmentSlot.HEAD;
-            case CHESTPLATE -> EquipmentSlot.CHEST;
-            case LEGGINGS -> EquipmentSlot.LEGS;
-            case BOOTS -> EquipmentSlot.FEET;
-            default -> null;
-        };
-    }
-    private ItemStack getArmorPiece(PopupType type) {
-        Player player = Minecraft.getInstance().player;
-        if (player == null) return ItemStack.EMPTY;
-
-        return switch (type) {
-            case HELMET -> player.getItemBySlot(EquipmentSlot.HEAD);
-            case CHESTPLATE -> player.getItemBySlot(EquipmentSlot.CHEST);
-            case LEGGINGS -> player.getItemBySlot(EquipmentSlot.LEGS);
-            case BOOTS -> player.getItemBySlot(EquipmentSlot.FEET);
-            default -> ItemStack.EMPTY;
-        };
-    }
-    private double getCurrentAttributeValue(ItemStack armorPiece, ArmorAttribute attribute) {
-        CustomData data = armorPiece.get(DataComponents.CUSTOM_DATA);
-        if (data == null) return 0.0;
-
-        CompoundTag tag = data.copyTag();
-        String key = "attr_%s".formatted(attribute.configKey());
-
-        double stored = tag.contains(key) ? tag.getDouble(key) : 0.0;
-        return stored / attribute.baseValue(); // Normiert auf 0–1 für den Slider
-    }
-    private boolean hasSwordEquipped() {
-        Player player = Minecraft.getInstance().player;
-        if (player == null) return false;
-
-        return player.getMainHandItem().getItem() instanceof UltimateKotdBlade ||
-                player.getOffhandItem().getItem() instanceof UltimateKotdBlade;
-    }
-    private boolean isArmorEquipped(EquipmentSlot slot) {
-        Player player = Minecraft.getInstance().player;
-        if (player == null) return false;
-
-        ItemStack armorStack = player.getItemBySlot(slot);
-        return armorStack.getItem() instanceof KotdCrystalArmorItem;
-    }
-
 
     // Specialized widget classes for better organization
     private class BlockingOverlay extends AbstractWidget {
@@ -358,11 +377,11 @@ public class ConfigScreen extends Screen {
         protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
         }
     }
-    private class ArmorSlider extends AbstractSliderButton {
-        private final ArmorAttribute attribute;
+    private class AttributeSlider extends AbstractSliderButton {
+        private final Attribute attribute;
 
-        public ArmorSlider(int x, int y, int width, int height,
-                           double normalizedValue, ArmorAttribute attribute) {
+        public AttributeSlider(int x, int y, int width, int height,
+                               double normalizedValue, Attribute attribute) {
             super(x, y, width, height, Component.empty(), normalizedValue);
             this.attribute = attribute;
             updateMessage();
@@ -410,14 +429,6 @@ public class ConfigScreen extends Screen {
                     0xFFFFFF);
         }
     }
-    private void saveChanges() {
-        if (pendingChanges == null || Minecraft.getInstance().player == null) return;
-        PacketDistributor.sendToServer(new UpdateArmorAttributesPacket(
-                getSlotForPopupType(currentPopup),
-                pendingChanges
-        ));
-        closePopup();
-    }
     private class CloseButton extends Button {
         public CloseButton(int x, int y, int width, int height, Component message) {
             //noinspection unused
@@ -447,27 +458,6 @@ public class ConfigScreen extends Screen {
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             return super.mouseClicked(mouseX, mouseY, button);
         }
-    }
-
-    private void openPopup(PopupType type) {
-        currentPopup = type;
-        this.renderables.forEach(widget -> {
-            if (widget instanceof AbstractWidget abstractWidget) {
-                abstractWidget.visible = false;
-                abstractWidget.active = false;
-            }
-        });
-        this.rebuildWidgets();
-    }
-    private void closePopup() {
-        currentPopup = PopupType.NONE;
-        this.renderables.forEach(widget -> {
-            if (widget instanceof AbstractWidget abstractWidget) {
-                abstractWidget.visible = true;
-                abstractWidget.active = true;
-            }
-        });
-        this.rebuildWidgets();
     }
 
     @Override
@@ -503,8 +493,17 @@ public class ConfigScreen extends Screen {
     }
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        Minecraft mc = Minecraft.getInstance();
         if (keyCode == GLFW.GLFW_KEY_ESCAPE && currentPopup != PopupType.NONE) {
             closePopup();
+            return true;
+        }
+        if (keyCode == mc.options.keyInventory.getKey().getValue()) {
+            if (currentPopup != PopupType.NONE) {
+                closePopup();
+            } else {
+                onClose();
+            }
             return true;
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
@@ -516,6 +515,52 @@ public class ConfigScreen extends Screen {
         } else if (currentPopup == PopupType.NONE && popupAnimation > 0) {
             popupAnimation--;
         }
+    }
+
+    private EquipmentSlot getSlotForPopupType(PopupType type) {
+        return switch (type) {
+            case HELMET -> EquipmentSlot.HEAD;
+            case CHESTPLATE -> EquipmentSlot.CHEST;
+            case LEGGINGS -> EquipmentSlot.LEGS;
+            case BOOTS -> EquipmentSlot.FEET;
+            default -> null;
+        };
+    }
+    private ItemStack getArmorPiece(PopupType type) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return ItemStack.EMPTY;
+
+        return switch (type) {
+            case HELMET -> player.getItemBySlot(EquipmentSlot.HEAD);
+            case CHESTPLATE -> player.getItemBySlot(EquipmentSlot.CHEST);
+            case LEGGINGS -> player.getItemBySlot(EquipmentSlot.LEGS);
+            case BOOTS -> player.getItemBySlot(EquipmentSlot.FEET);
+            default -> ItemStack.EMPTY;
+        };
+    }
+    private double getCurrentAttributeValue(ItemStack armorPiece, Attribute attribute) {
+        CustomData data = armorPiece.get(DataComponents.CUSTOM_DATA);
+        if (data == null) return 0.0;
+
+        CompoundTag tag = data.copyTag();
+        String key = "attr_%s".formatted(attribute.configKey());
+
+        double stored = tag.contains(key) ? tag.getDouble(key) : 0.0;
+        return stored / attribute.baseValue(); // Normiert auf 0–1 für den Slider
+    }
+    private boolean hasSwordEquipped() {
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return false;
+
+        return player.getMainHandItem().getItem() instanceof UltimateKotdBlade ||
+                player.getOffhandItem().getItem() instanceof UltimateKotdBlade;
+    }
+    private boolean isArmorEquipped(EquipmentSlot slot) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return false;
+
+        ItemStack armorStack = player.getItemBySlot(slot);
+        return armorStack.getItem() instanceof KotdCrystalArmorItem;
     }
     public static boolean hasArmorPiece(Player player) {
         if (player == null) return false;
@@ -531,5 +576,19 @@ public class ConfigScreen extends Screen {
             }
         }
         return false;
+    }
+    private void saveChanges() {
+        Player player = Minecraft.getInstance().player;
+        if (pendingChanges == null || player == null) return;
+
+        if (currentPopup == PopupType.SWORD) {
+            PacketDistributor.sendToServer(new UpdateArmorAttributesPacket(null, pendingChanges, true));
+            closePopup();
+            return;
+        }
+
+        EquipmentSlot slot = getSlotForPopupType(currentPopup);
+        PacketDistributor.sendToServer(new UpdateArmorAttributesPacket(slot, pendingChanges, false));
+        closePopup();
     }
 }

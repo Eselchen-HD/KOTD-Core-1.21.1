@@ -20,7 +20,7 @@ import static de.eselgamerhd.kotd.Kotd.MODID;
 
 public class KotdBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-    public static final DeferredBlock<MagicalSkullBlock> MAGICAL_SKULL = BLOCKS.register("magical_skull", MagicalSkullBlock::new);
+    public static final DeferredBlock<MagicalSkullBlock> MAGICAL_SKULL_BLOCK = BLOCKS.register("magical_skull", MagicalSkullBlock::new);
     public static final DeferredBlock<MagicalWallSkullBlock> MAGICAL_WALL_SKULL = BLOCKS.register("magical_wall_skull", MagicalWallSkullBlock::new);
     public static final DeferredBlock<Block> KOTD_BLOCK = registerBlock("kotd_block", () -> new Block(BlockBehaviour.Properties.of().strength(4f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST)));
     public static final DeferredBlock<FlowerPotPack> FLOWER_POT_PACK = registerBlock("flower_pot_pack", () -> new FlowerPotPack(BlockBehaviour.Properties.of().strength(0.3f)));

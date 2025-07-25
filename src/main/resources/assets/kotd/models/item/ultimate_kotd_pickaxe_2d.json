@@ -1,0 +1,11 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "kotd:item/ultimate_kotd_pickaxe_2d"
+  },
+  "display": {
+    "gui": {"rotation": [0, 0, -45],"translation": [-1, -1, 0]},
+    "fixed": {"rotation": [0, 0, 45]},
+    "ground": {"rotation": [0, 0, -45],"scale": [0.8, 0.8, 0.8]}
+  }
+}

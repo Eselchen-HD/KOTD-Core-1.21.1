@@ -27,7 +27,7 @@ public class KotdBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(KotdBlocks.FLOWER_POT_PACK.get());
-        dropSelf(KotdBlocks.MAGICAL_SKULL.get());
+        dropSelf(KotdBlocks.MAGICAL_SKULL_BLOCK.get());
         dropSelf(KotdBlocks.MAGICAL_WALL_SKULL.get());
         dropSelf(KotdBlocks.KOTD_BLOCK.get());
     }

@@ -1,0 +1,88 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "texture_size": [
+    32,
+    64
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        9,
+        90,
+        0
+      ],
+      "translation": [
+        0,
+        -7,
+        0.25
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        9,
+        90,
+        0
+      ],
+      "translation": [
+        0,
+        -6.75,
+        0
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        -9,
+        90,
+        0
+      ],
+      "translation": [
+        1.25,
+        -8.75,
+        2.5
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        -9,
+        90,
+        0
+      ],
+      "translation": [
+        0.75,
+        -8.75,
+        1
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ]
+    },
+    "head": {
+      "translation": [
+        0,
+        6.5,
+        0
+      ]
+    }
+  },
+  "textures": {
+    "particle": "kotd:item/ultimate_kotd_pickaxe_3d"
+  }
+}
