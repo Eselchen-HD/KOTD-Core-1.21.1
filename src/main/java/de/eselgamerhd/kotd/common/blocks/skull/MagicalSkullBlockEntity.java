@@ -11,7 +11,6 @@ public class MagicalSkullBlockEntity extends SkullBlockEntity {
     public MagicalSkullBlockEntity(BlockPos pos, BlockState state) {
         super(pos, state);
     }
-
     @Override
     public @NotNull BlockEntityType<?> getType() {return KotdEntities.MAGICAL_SKULL_BE.get();}
 }

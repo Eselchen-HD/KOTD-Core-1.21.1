@@ -1,4 +1,4 @@
-package de.eselgamerhd.kotd.common.blocks.skull;
+package de.eselgamerhd.kotd.client.models;
 
 import net.minecraft.client.model.SkullModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -6,7 +6,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class CustomSkullModel extends SkullModel {
     public static final ModelLayerLocation MAGICAL_SKULL = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath("kotd", "magical_skull"), "main");
     private final ModelPart head;

@@ -3,7 +3,7 @@ package de.eselgamerhd.kotd.client.gui;
 import de.eselgamerhd.kotd.Kotd;
 import de.eselgamerhd.kotd.common.items.armor.kotdCrystalArmor.KotdCrystalArmorItem;
 import de.eselgamerhd.kotd.common.items.item.ultimateKotdBlade.UltimateKotdBlade;
-import de.eselgamerhd.kotd.network.UpdateArmorAttributesPacket;
+import de.eselgamerhd.kotd.network.UpdateAttributesPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;
@@ -582,13 +582,13 @@ public class ConfigScreen extends Screen {
         if (pendingChanges == null || player == null) return;
 
         if (currentPopup == PopupType.SWORD) {
-            PacketDistributor.sendToServer(new UpdateArmorAttributesPacket(null, pendingChanges, true));
+            PacketDistributor.sendToServer(new UpdateAttributesPacket(null, pendingChanges, true));
             closePopup();
             return;
         }
 
         EquipmentSlot slot = getSlotForPopupType(currentPopup);
-        PacketDistributor.sendToServer(new UpdateArmorAttributesPacket(slot, pendingChanges, false));
+        PacketDistributor.sendToServer(new UpdateAttributesPacket(slot, pendingChanges, false));
         closePopup();
     }
 }

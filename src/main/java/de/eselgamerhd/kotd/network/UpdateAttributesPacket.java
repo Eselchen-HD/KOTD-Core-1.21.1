@@ -15,17 +15,17 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public record UpdateArmorAttributesPacket(@Nullable EquipmentSlot slot, ItemStack stack, boolean isSword) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<UpdateArmorAttributesPacket> TYPE =
+public record UpdateAttributesPacket(@Nullable EquipmentSlot slot, ItemStack stack, boolean isSword) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<UpdateAttributesPacket> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Kotd.MODID, "update_armor_attributes"));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, UpdateArmorAttributesPacket> CODEC =
+    public static final StreamCodec<RegistryFriendlyByteBuf, UpdateAttributesPacket> CODEC =
             StreamCodec.of(
-                    UpdateArmorAttributesPacket::encode,
-                    UpdateArmorAttributesPacket::decode
+                    UpdateAttributesPacket::encode,
+                    UpdateAttributesPacket::decode
             );
 
-    private static void encode(RegistryFriendlyByteBuf buf, UpdateArmorAttributesPacket packet) {
+    private static void encode(RegistryFriendlyByteBuf buf, UpdateAttributesPacket packet) {
         buf.writeBoolean(packet.isSword());
         if (!packet.isSword()) {
             buf.writeEnum(Objects.requireNonNull(packet.slot()));
@@ -33,11 +33,11 @@ public record UpdateArmorAttributesPacket(@Nullable EquipmentSlot slot, ItemStac
         ItemStack.STREAM_CODEC.encode(buf, packet.stack());
     }
 
-    private static UpdateArmorAttributesPacket decode(RegistryFriendlyByteBuf buf) {
+    private static UpdateAttributesPacket decode(RegistryFriendlyByteBuf buf) {
         boolean isSword = buf.readBoolean();
         EquipmentSlot slot = isSword ? null : buf.readEnum(EquipmentSlot.class);
         ItemStack stack = ItemStack.STREAM_CODEC.decode(buf);
-        return new UpdateArmorAttributesPacket(slot, stack, isSword);
+        return new UpdateAttributesPacket(slot, stack, isSword);
     }
 
     @Override
@@ -45,7 +45,7 @@ public record UpdateArmorAttributesPacket(@Nullable EquipmentSlot slot, ItemStac
         return TYPE;
     }
 
-    public static void handle(UpdateArmorAttributesPacket packet, IPayloadContext context) {
+    public static void handle(UpdateAttributesPacket packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             Player player = context.player();
             if (packet.isSword()) {

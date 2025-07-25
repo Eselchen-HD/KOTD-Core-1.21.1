@@ -11,8 +11,8 @@ public class KotdNetwork {
     public static void registerPayloads(RegisterPayloadHandlersEvent event) {
         event.registrar(Kotd.MODID)
                 .versioned("1.0")
-                .playBidirectional(UpdateArmorAttributesPacket.TYPE,
-                        UpdateArmorAttributesPacket.CODEC,
-                        UpdateArmorAttributesPacket::handle);
+                .playBidirectional(UpdateAttributesPacket.TYPE,
+                        UpdateAttributesPacket.CODEC,
+                        UpdateAttributesPacket::handle);
     }
 }

@@ -1,11 +1,14 @@
-package de.eselgamerhd.kotd.worldgen.dimension;
+package de.eselgamerhd.kotd.client.dimension;
 
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import org.jetbrains.annotations.NotNull;
 
+@OnlyIn(Dist.CLIENT)
 public class CustomDimensionEffects extends DimensionSpecialEffects {
     public CustomDimensionEffects() {super(256.0F, false, SkyType.NORMAL, false, false);}
     @Override
