@@ -1,9 +1,9 @@
-package de.eselgamerhd.kotd.common.blocks.skull;
+package de.eselgamerhd.kotd.client.models.skull;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import de.eselgamerhd.kotd.client.models.CustomSkullModel;
+import de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullBlockEntity;
 import net.minecraft.client.model.SkullModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.WallSkullBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-import static de.eselgamerhd.kotd.client.models.CustomSkullModel.MAGICAL_SKULL;
+import static de.eselgamerhd.kotd.client.models.skull.CustomSkullModel.MAGICAL_SKULL;
 
 public class MagicalSkullRenderer implements BlockEntityRenderer<MagicalSkullBlockEntity> {
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("kotd", "textures/block/magical_skull.png");

@@ -42,7 +42,7 @@ public class Kotd {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             modEventBus.addListener(CustomDimensionEffects::registerDimensionEffects);
             modEventBus.addListener(ClientSetup::commonSetup);
-            modEventBus.addListener(KeyBinds::registerKeybinds);
+            modEventBus.addListener(KeyBinds::register);
         }
         if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
             modEventBus.addListener(this::onAttributeCreation);

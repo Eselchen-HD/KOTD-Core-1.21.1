@@ -8,8 +8,6 @@ import org.lwjgl.glfw.GLFW;
 
 public class KeyBinds {
 
-    public static KeyMapping toolConfig;
-
 
     public static final KeyMapping OPEN_ATTRIBUTE_MENU = new KeyMapping(
             "key.kotd.open_attribute_menu",
@@ -19,7 +17,7 @@ public class KeyBinds {
     );
 
     @SubscribeEvent
-    public static void registerKeybinds(RegisterKeyMappingsEvent event) {
+    public static void register(RegisterKeyMappingsEvent event) {
         event.register(OPEN_ATTRIBUTE_MENU);
     }
 }

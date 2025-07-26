@@ -2,10 +2,10 @@ package de.eselgamerhd.kotd.client.event;
 
 import de.eselgamerhd.kotd.client.gui.ConfigScreen;
 import de.eselgamerhd.kotd.client.keybinding.KeyBinds;
-import de.eselgamerhd.kotd.client.models.CustomSkullModel;
-import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPackModel;
-import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPackRenderer;
-import de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullRenderer;
+import de.eselgamerhd.kotd.client.models.skull.CustomSkullModel;
+import de.eselgamerhd.kotd.client.models.flowerpotpack.FlowerPotPackModel;
+import de.eselgamerhd.kotd.client.models.flowerpotpack.FlowerPotPackRenderer;
+import de.eselgamerhd.kotd.client.models.skull.MagicalSkullRenderer;
 import de.eselgamerhd.kotd.common.entity.kotd.KnightOfTheDark;
 import de.eselgamerhd.kotd.common.entity.kotd.KOTDRenderer;
 import de.eselgamerhd.kotd.common.entity.laser_beam.LaserBeamRenderer;
@@ -32,7 +32,7 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
 import static com.mojang.text2speech.Narrator.LOGGER;
 import static de.eselgamerhd.kotd.Kotd.MODID;
-import static de.eselgamerhd.kotd.client.models.CustomSkullModel.MAGICAL_SKULL;
+import static de.eselgamerhd.kotd.client.models.skull.CustomSkullModel.MAGICAL_SKULL;
 import static de.eselgamerhd.kotd.common.blocks.skull.MagicalSkullBlock.MAGICAL;
 
 

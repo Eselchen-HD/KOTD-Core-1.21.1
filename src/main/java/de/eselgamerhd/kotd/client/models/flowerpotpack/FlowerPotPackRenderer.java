@@ -1,6 +1,7 @@
-package de.eselgamerhd.kotd.common.blocks.flowerPotPack;
+package de.eselgamerhd.kotd.client.models.flowerpotpack;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import de.eselgamerhd.kotd.common.blocks.flowerPotPack.FlowerPotPackEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;

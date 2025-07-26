@@ -1,4 +1,4 @@
-package de.eselgamerhd.kotd.client.models;
+package de.eselgamerhd.kotd.client.models.skull;
 
 import net.minecraft.client.model.SkullModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
